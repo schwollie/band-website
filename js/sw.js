@@ -7,7 +7,7 @@ const urlsToCache = [
     '/js/main.js',
     '/assets/images/sun.png',
     '/assets/images/name.png',
-    'assets/images/favicon.png',
+    '/assets/images/favicon.png',
     '/assets/images/gallery/gallery1.jpeg',
     '/assets/images/gallery/gallery2.jpeg',
     '/assets/images/gallery/gallery3.jpeg',

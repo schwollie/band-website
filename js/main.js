@@ -1,5 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    // --- Supabase Configuration ---
+    // Replace with your actual Supabase URL and anon key
+
+    const SUPABASE_URL = "https://dolezrdzoqerqebusxft.supabase.co"
+    const supabase = window.supabase.createClient(SUPABASE_URL, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRvbGV6cmR6b3FlcnFlYnVzeGZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA1MjQwNDIsImV4cCI6MjA2NjEwMDA0Mn0.TmEcK9Q5bnd4k0dzd-wny1D09rZxWJL_iWVvNlQ10J8");
+
+
     // --- Social Bar Scroll Logic ---
     const socialBar = document.querySelector('.social-bar');
     let lastScrollY = window.scrollY;
@@ -10,12 +17,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // If scrolling down past the header, hide the bar
         if (currentScrollY > lastScrollY && currentScrollY > 100) {
             socialBar.classList.add('social-bar--hidden');
-        } 
+        }
         // If scrolling up, only show the bar if we are near the top
         else if (currentScrollY < lastScrollY) {
             // The bar will only reappear if you scroll up into the top 300px of the page
-            if (currentScrollY < 300) { 
-                 socialBar.classList.remove('social-bar--hidden');
+            if (currentScrollY < 300) {
+                socialBar.classList.remove('social-bar--hidden');
             }
         }
         // Always ensure the bar is visible when at the very top of the page
@@ -156,14 +163,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 <img src="${path}" alt="Lymina gallery image">
             </div>
         `).join('');
-        
+
         slidesWrapper.innerHTML = galleryHTML;
     }
 
     // --- Slideshow Logic ---
     let slideIndex = 0;
     let autoPlayInterval = null; // To hold the reference to setInterval
-    
+
     function setupSlideshow() {
         const slidesWrapper = document.querySelector('.slides-wrapper');
         const slides = document.querySelectorAll('.slide');
@@ -176,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (index >= slides.length) slideIndex = 0;
             else if (index < 0) slideIndex = slides.length - 1;
             else slideIndex = index;
-            
+
             const offset = -slideIndex * 100;
             slidesWrapper.style.transform = `translateX(${offset}%)`;
         }
@@ -206,18 +213,88 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Newsletter Form Logic --- 
     const newsletterForm = document.getElementById('newsletter-form');
     const formMessage = document.getElementById('form-message');
+    let isSubmitting = false; // Prevent double submissions
+
     if (newsletterForm) {
-        newsletterForm.addEventListener('submit', function (event) {
+        newsletterForm.addEventListener('submit', async function (event) {
             event.preventDefault();
+
+            // Prevent multiple simultaneous submissions
+            if (isSubmitting) return;
+            isSubmitting = true;
+
             const emailInput = document.getElementById('email');
-            if (emailInput.value && emailInput.checkValidity()) {
-                formMessage.textContent = `Thank you! We'll keep you posted.`;
+            const submitButton = newsletterForm.querySelector('button[type="submit"]');
+            const originalButtonText = submitButton.textContent;
+
+            // Update UI to show loading state
+            submitButton.textContent = 'SUBSCRIBING...';
+            submitButton.disabled = true;
+            formMessage.textContent = '';
+
+            try {
+                const rawEmail = emailInput.value;
+
+                // Client-side validation
+                if (!rawEmail) {
+                    throw new Error('Please enter an email address.');
+                }
+
+                const email = sanitizeEmail(rawEmail);
+
+                if (!isValidEmail(email)) {
+                    throw new Error('Please enter a valid email address.');
+                }
+
+                // Attempt to insert email into Supabase
+                const { data, error } = await supabase
+                    .from('emails')
+                    .insert([{ email: email }]);
+
+                if (error) {
+                    // Handle specific error cases
+                    if (error.code === '23505') { // PostgreSQL unique constraint violation
+                        throw new Error('You\'re already subscribed to our newsletter!');
+                    } else if (error.message.includes('duplicate key')) {
+                        throw new Error('You\'re already subscribed to our newsletter!');
+                    } else {
+                        console.error('Supabase error:', error);
+                        throw new Error('Something went wrong. Please try again later.');
+                    }
+                }
+
+                // Success
+                formMessage.textContent = 'Thank you! Welcome to the LYMINA family! 🎵';
+                formMessage.style.color = 'var(--orange)';
                 emailInput.value = '';
-            } else {
-                formMessage.textContent = 'Please enter a valid email address.';
+
+            } catch (error) {
+                // Display error message
+                formMessage.textContent = error.message;
+                formMessage.style.color = '#e74c3c'; // Red color for errors
+            } finally {
+                // Reset UI state
+                submitButton.textContent = originalButtonText;
+                submitButton.disabled = false;
+                isSubmitting = false;
+
+                // Clear message after 6 seconds
+                setTimeout(() => {
+                    formMessage.textContent = '';
+                    formMessage.style.color = 'var(--orange)'; // Reset to original color
+                }, 6000);
             }
-            setTimeout(() => { formMessage.textContent = ''; }, 5000);
         });
+    }
+
+    // --- Email Validation Helper ---
+    function isValidEmail(email) {
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return emailPattern.test(email) && email.length <= 254; // RFC 5321 limit
+    }
+
+    function sanitizeEmail(email) {
+        return email.trim().toLowerCase();
     }
 
     // --- Initialize Page ---
