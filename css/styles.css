@@ -148,8 +148,11 @@ section.is-visible {
     transform: translateY(0);
 }
 
+/* Remove shadow from the last section before the footer */
 main > section:last-of-type {
     margin-bottom: 0;
+    box-shadow: none;
+    border-bottom: 1px solid #00000067; /* Add subtle line to last section */
 }
 
 .container {
@@ -441,7 +444,6 @@ footer a:hover {
     color: var(--dark-text);
     padding: 2rem 1rem;
     text-align: center;
-    box-shadow: 0 -10px 30px rgba(0,0,0,0.1);
     position: relative;
     z-index: 2;
 }
