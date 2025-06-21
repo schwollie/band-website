@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LYMINA | Official Website</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="icon" href="assets/images/favicon.png" type="image/png">
+</head>
+<body>
+
+    <header class="band-header">
+        <div class="band-header-background">
+            <img src="assets/images/sun.png" alt="Sun graphic" class="sun-image">
+        </div>
+        <img src="assets/images/name.png" alt="LYMINA Band Logo" class="band-logo">
+    </header>
+
+    <main>
+        <section id="about">
+            <div class="container">
+                <h2>ABOUT THE BAND</h2>
+                <p>
+                    Welcome to the official home of LYMINA. We are a synth-driven collective, blending nostalgic 80s soundscapes with modern electronic beats. Our music is a journey through neon-drenched cityscapes and digital dreams. Dive into the sound, feel the vibe, and join us on our sonic adventure. This is more than music; it's a retro-futuristic experience.
+                </p>
+            </div>
+        </section>
+
+        <section id="tour">
+            <div class="container">
+                <h2>UPCOMING SHOWS</h2>
+                <ul class="show-list">
+                    <!-- Tour dates will be injected by main.js -->
+                </ul>
+            </div>
+        </section>
+
+        <section id="gallery">
+            <div class="container">
+                <h2>GALLERY</h2>
+                <div class="slideshow-container">
+                    <div class="slides-wrapper">
+                        <!-- Slides will be injected by main.js -->
+                    </div>
+                    <a class="prev">&#10094;</a>
+                    <a class="next">&#10095;</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="newsletter">
+            <div class="container">
+                <h2>JOIN OUR NEWSLETTER</h2>
+                <p>Get the latest news, tour dates, and exclusive content straight to your inbox.</p>
+                <form id="newsletter-form">
+                    <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
+                    <button type="submit">SUBSCRIBE</button>
+                </form>
+                <p id="form-message"></p>
+            </div>
+        </section>
+    </main>
+
+    <footer id="site-footer">
+        <div class="impressum-content">
+            <p><strong>Lars Christiansen</strong></p>
+            <p><a href="mailto:lymina.band@gmail.com">lymina.band@gmail.com</a></p>
+            <p><a href="tel:+491623510110">+49 162 3510110</a></p>
+        </div>
+        <div class="copyright-content">
+            &copy; 2025 LYMINA. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Register service worker
+        if ('serviceWorker'in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/js/sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    })
+                    .catch(err => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
