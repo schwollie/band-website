@@ -1,5 +1,5 @@
-const CACHE_NAME = 'LYMINA-band-cache-v6'; // Incremented cache version
-const PREVENT_CACHE = true;
+const CACHE_NAME = 'LYMINA-band-cache-v0.0.1'; // Incremented cache version
+const PREVENT_CACHE = false;
 const urlsToCache = [
     '/',
     '/index.html',

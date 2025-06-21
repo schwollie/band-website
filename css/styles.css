@@ -136,6 +136,16 @@ section {
     padding: 5rem 0;
     margin-bottom: 35vh;
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    /* Animation starting state */
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* Animation visible state */
+section.is-visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 main > section:last-of-type {
@@ -179,7 +189,22 @@ p {
     padding: 1.5rem;
     margin-bottom: 1rem;
     border-bottom: 1px solid #ddd;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, opacity 0.5s ease-out, transform 0.5s ease-out;
+    /* Staggered animation starting state */
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+/* Staggered animation for each list item */
+section.is-visible .show-list li:nth-child(1) { transition-delay: 0.1s; }
+section.is-visible .show-list li:nth-child(2) { transition-delay: 0.2s; }
+section.is-visible .show-list li:nth-child(3) { transition-delay: 0.3s; }
+section.is-visible .show-list li:nth-child(4) { transition-delay: 0.4s; }
+/* Add more if you have more tour dates */
+
+section.is-visible .show-list li {
+    opacity: 1;
+    transform: translateX(0);
 }
 
 .show-list li:hover {
@@ -212,11 +237,14 @@ p {
     font-weight: bold;
     text-align: center;
     border: 2px solid var(--orange);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .ticket-btn:hover {
     background-color: var(--white);
     color: var(--orange);
+    transform: translateY(-3px); /* Enhanced hover effect */
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15); /* Enhanced hover effect */
 }
 
 .ticket-btn.sold-out {
@@ -449,6 +477,15 @@ footer a:hover {
 
 /* --- Responsive Design --- */
 @media (max-width: 768px) {
+    .social-bar {
+        text-align: center; /* Center icons on mobile */
+    }
+
+    .social-bar a {
+        font-size: 1.8rem; /* Make icons larger on mobile */
+        margin: 0 1rem; /* Adjust spacing for mobile */
+    }
+
     h2 { font-size: 2rem; }
     .sun-image { width: 60vw; } /* Smaller for portrait */
     .band-logo { width: 45vw; } /* Smaller for portrait */

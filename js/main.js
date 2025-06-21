@@ -27,6 +27,26 @@ document.addEventListener('DOMContentLoaded', () => {
         lastScrollY = currentScrollY <= 0 ? 0 : currentScrollY;
     }, { passive: true });
 
+
+    // --- Animate Sections on Scroll ---
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            // Add class if intersecting, remove it if not
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+            } else {
+                entry.target.classList.remove('is-visible');
+            }
+        });
+    }, {
+        threshold: 0.1 // Trigger when 10% of the section is visible
+    });
+
+    // Observe all sections
+    const sections = document.querySelectorAll('main section');
+    sections.forEach(section => observer.observe(section));
+
+
     // --- Configuration ---
     const GALLERY_IMAGE_COUNT = 5; // Set this to the number of gallery images you have
 
