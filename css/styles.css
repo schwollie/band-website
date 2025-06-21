@@ -28,6 +28,40 @@ body {
     line-height: 1.6;
 }
 
+/* --- Social Media Bar --- */
+.social-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.0);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* For Safari */
+    padding: 0.75rem 0;
+    text-align: right;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    transform: translateY(0);
+    transition: transform 0.4s ease-out; /* Smooth transition for hiding/showing */
+}
+
+.social-bar--hidden {
+    transform: translateY(-110%); /* Hides the bar completely */
+}
+
+.social-bar a {
+    color: var(--white);
+    margin: 0 1.2rem;
+    font-size: 1.6rem; /* Icon size */
+    transition: color 0.3s ease, transform 0.3s ease;
+    display: inline-block; /* Allows for transform */
+}
+
+.social-bar a:hover {
+    color: var(--orange);
+    transform: scale(1.2);
+}
+
 /* --- Parallax Hero Section --- */
 .hero {
     position: sticky;
