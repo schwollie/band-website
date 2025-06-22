@@ -132,69 +132,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Trigger handleScroll on initial load
     handleScroll();
 
-    // --- Animation Frame for Constant Wobble ---
-    const wobbleSpeed = 0.03; // Adjust for slower/faster wobble
-    const sunWobbleAmplitude = 1.3; // Adjust for smaller/larger wobble
-    const logoWobbleAmplitude = 0.7; // Adjust for smaller/larger wobble
-    const maxWobbleOffset = 5; // Limit the maximum wobble offset
-
-    let sunWobbleX = 0;
-    let sunWobbleY = 0;
-    let logoWobbleX = 0;
-    let logoWobbleY = 0;
-
-    function animateWobble() {
-        const sun = document.querySelector('.sun-image');
-        const nameLogo = document.querySelector('.band-logo');
-        if (!sun || !nameLogo) return;
-
-        // Sun wobble
-        let targetSunWobbleX = (Math.random() - 0.5) * 2 * sunWobbleAmplitude; // Random value between -1 and 1
-        let targetSunWobbleY = (Math.random() - 0.5) * 2 * sunWobbleAmplitude; // Random value between -1 and 1
-
-        // Logo wobble
-        let targetLogoWobbleX = (Math.random() - 0.5) * 2 * logoWobbleAmplitude; // Random value between -1 and 1
-        let targetLogoWobbleY = (Math.random() - 0.5) * 2 * logoWobbleAmplitude; // Random value between -1 and 1
-
-        // Smoothly interpolate towards the target wobble values
-        sunWobbleX += (targetSunWobbleX - sunWobbleX) * wobbleSpeed;
-        sunWobbleY += (targetSunWobbleY - sunWobbleY) * wobbleSpeed;
-        logoWobbleX += (targetLogoWobbleX - logoWobbleX) * wobbleSpeed;
-        logoWobbleY += (targetLogoWobbleY - logoWobbleY) * wobbleSpeed;
-
-        // Clamp the wobble values to prevent drifting too far
-        sunWobbleX = Math.max(Math.min(sunWobbleX, maxWobbleOffset), -maxWobbleOffset);
-        sunWobbleY = Math.max(Math.min(sunWobbleY, maxWobbleOffset), -maxWobbleOffset);
-        logoWobbleX = Math.max(Math.min(logoWobbleX, maxWobbleOffset), -maxWobbleOffset);
-        logoWobbleY = Math.max(Math.min(logoWobbleY, maxWobbleOffset), -maxWobbleOffset);
-
-        // Get current transforms
-        const sunTransform = sun.style.transform;
-        const logoTransform = nameLogo.style.transform;
-
-        // Extract existing translation values, default to 0 if not present
-        const getTranslateValue = (transformStr, axis) => {
-            const regex = new RegExp(`translate${axis}\\(([-+]?[0-9]*\\.?[0-9]+)px\\)`);
-            const match = transformStr.match(regex);
-            return match ? parseFloat(match[1]) : 0;
-        };
-
-        const currentSunTranslateX = getTranslateValue(sunTransform, 'X');
-        const currentSunTranslateY = getTranslateValue(sunTransform, 'Y');
-        const currentLogoTranslateX = getTranslateValue(logoTransform, 'X');
-        const currentLogoTranslateY = getTranslateValue(logoTransform, 'Y');
-
-        // Apply the wobble as an offset to the current position
-        sun.style.transform = `translateX(${currentSunTranslateX + sunWobbleX}px) translateY(${currentSunTranslateY + sunWobbleY}px) scale(${parseFloat(sun.style.transform.split('scale(')[1])})`;
-        nameLogo.style.transform = `translateX(${currentLogoTranslateX + logoWobbleX}px) translateY(${currentLogoTranslateY + logoWobbleY}px) scale(${parseFloat(nameLogo.style.transform.split('scale(')[1])})`;
-
-        requestAnimationFrame(animateWobble);
-    }
-
-    // Start the animation loop
-    animateWobble();
-
-
     // --- Dynamic Content Rendering ---
     function renderTourDates() {
         const showList = document.querySelector('.show-list');
