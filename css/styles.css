@@ -1,11 +1,14 @@
 /* --- Global Styles & Variables --- */
 :root {
-    --orange: #f39c12;
-    --yellow: #f1c40f;
-    --light-purple: #e9e6f2;
-    --dark-text: #343434;
-    --white: #ffffff;
-    --light-gray: #f4f4f4;
+    /* New Designer-Approved Color Palette */
+    --sky-blue: #a4d0e0;
+    --sunset-purple: #eb8143;
+    --accent-gold: #FBE55C;
+    --text-charcoal: #343434;
+    --bg-off-white: #F9F9F9;
+    --pure-white: #ffffff;
+
+    /* Fonts */
     --header-font: 'Montserrat', sans-serif;
     --body-font: 'Lato', sans-serif;
 }
@@ -18,13 +21,13 @@
 
 body {
     font-family: var(--body-font);
-    /* Gradient background: warm reddish to purple, fits sun.png */
-    background: linear-gradient(135deg, #ffb199 0%, #ff0844 50%, #8f5cff 100%);
+    /* New background gradient from Sky Blue to Sunset Purple */
+    background: linear-gradient(135deg, var(--sky-blue) 0%, var(--sunset-purple) 100%);
     /* Subtle wavy SVG pattern overlay for structure */
     background-image:
         url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 20 Q10 10 20 20 T40 20' stroke='%23ffffff' stroke-width='0.5' fill='none' opacity='0.08'/%3E%3C/svg%3E"),
-        linear-gradient(135deg, #ffb199 0%, #ff0844 50%, #8f5cff 100%);
-    color: var(--dark-text);
+        linear-gradient(135deg, var(--sky-blue) 0%, var(--sunset-purple) 100%);
+    color: var(--text-charcoal);
     line-height: 1.6;
 }
 
@@ -50,7 +53,7 @@ body {
 }
 
 .social-bar a {
-    color: var(--white);
+    color: var(--pure-white);
     margin: 0 1.2rem;
     font-size: 1.6rem; /* Icon size */
     transition: color 0.3s ease, transform 0.3s ease;
@@ -58,7 +61,7 @@ body {
 }
 
 .social-bar a:hover {
-    color: var(--orange);
+    color: var(--accent-gold);
     transform: scale(1.2);
 }
 
@@ -132,7 +135,7 @@ main {
 }
 
 section {
-    background-color: var(--white);
+    background-color: var(--bg-off-white);
     padding: 5rem 0;
     margin-bottom: 35vh;
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
@@ -152,7 +155,7 @@ section.is-visible {
 main > section:last-of-type {
     margin-bottom: 0;
     box-shadow: none;
-    border-bottom: 1px solid #00000067; /* Add subtle line to last section */
+    border-bottom: 1px solid #e0e0e0; /* Add subtle line to last section */
 }
 
 .container {
@@ -165,7 +168,7 @@ main > section:last-of-type {
 h2 {
     font-family: var(--header-font);
     font-size: 2.5rem;
-    color: var(--dark-text);
+    color: var(--text-charcoal);
     margin-bottom: 2rem;
     letter-spacing: 1px;
 }
@@ -211,12 +214,12 @@ section.is-visible .show-list li {
 }
 
 .show-list li:hover {
-    background-color: #fff5e6;
+    background-color: #fdfbf1; /* Lighter version of off-white for hover */
 }
 
 .show-list .date {
     font-family: var(--header-font);
-    color: var(--orange);
+    color: var(--sunset-purple); /* Use purple for dates for contrast */
     font-size: 1.1rem;
 }
 
@@ -232,27 +235,27 @@ section.is-visible .show-list li {
 .ticket-btn {
     font-family: var(--header-font);
     text-decoration: none;
-    background-color: var(--orange);
-    color: var(--white);
+    background-color: var(--accent-gold);
+    color: var(--text-charcoal);
     padding: 0.8rem 1.2rem;
     border-radius: 50px;
     transition: all 0.3s ease;
     font-weight: bold;
     text-align: center;
-    border: 2px solid var(--orange);
+    border: 2px solid var(--accent-gold);
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .ticket-btn:hover {
-    background-color: var(--white);
-    color: var(--orange);
+    background-color: var(--bg-off-white);
+    color: var(--text-charcoal);
     transform: translateY(-3px); /* Enhanced hover effect */
     box-shadow: 0 6px 12px rgba(0,0,0,0.15); /* Enhanced hover effect */
 }
 
 .ticket-btn.sold-out {
     background-color: #aaa;
-    color: #fff;
+    color: var(--pure-white);
     pointer-events: none;
     border-color: #aaa;
 }
@@ -264,7 +267,6 @@ section.is-visible .show-list li {
     margin: auto;
     overflow: hidden;
     aspect-ratio: 16 / 9;
-    /* Make background transparent to show page background */
     background: transparent;
     border-radius: 8px;
 }
@@ -283,7 +285,6 @@ section.is-visible .show-list li {
 .slide img {
     width: 100%;
     height: 100%;
-    /* Use contain to fit any image aspect ratio without cropping */
     object-fit: contain;
     filter: grayscale(100%);
     transition: filter 0.4s ease;
@@ -300,27 +301,26 @@ section.is-visible .show-list li {
     width: auto;
     padding: 16px;
     margin-top: -30px;
-    color: var(--white);
+    color: var(--pure-white);
     font-weight: bold;
     font-size: 24px;
     transition: 0.3s ease;
     user-select: none;
-    /* Semi-transparent background for better visibility on images */
     background-color: rgba(0, 0, 0, 0.4);
     z-index: 2;
     border-radius: 3px;
 }
 
 .next {
-    right: 1rem; /* Move button inwards from the edge */
+    right: 1rem;
 }
 .prev {
-    left: 1rem; /* Move button inwards from the edge */
+    left: 1rem;
 }
 
 .prev:hover, .next:hover {
-    background-color: var(--orange);
-    color: var(--dark-text);
+    background-color: var(--accent-gold);
+    color: var(--text-charcoal);
 }
 
 /* --- Newsletter Section --- */
@@ -337,8 +337,8 @@ section.is-visible .show-list li {
     padding: 1rem;
     font-size: 1rem;
     border: 1px solid #ccc;
-    background: var(--white);
-    color: var(--dark-text);
+    background: var(--pure-white);
+    color: var(--text-charcoal);
     border-radius: 50px;
     width: 350px;
 }
@@ -347,8 +347,8 @@ section.is-visible .show-list li {
     padding: 1rem 2rem;
     font-size: 1rem;
     font-family: var(--header-font);
-    background-color: var(--orange);
-    color: var(--white);
+    background-color: var(--accent-gold);
+    color: var(--text-charcoal);
     border: none;
     border-radius: 50px;
     cursor: pointer;
@@ -356,13 +356,13 @@ section.is-visible .show-list li {
 }
 
 #newsletter-form button:hover {
-    background-color: var(--yellow);
+    filter: brightness(95%);
 }
 
 #form-message {
     margin-top: 1rem;
     font-weight: bold;
-    color: var(--orange);
+    color: var(--sunset-purple);
     height: 1.5rem;
 }
 
@@ -440,8 +440,8 @@ footer a:hover {
 
 /* --- Site Footer / Impressum --- */
 #site-footer {
-    background-color: var(--white);
-    color: var(--dark-text);
+    background-color: var(--sunset-purple);
+    color: var(--bg-off-white);
     padding: 2rem 1rem;
     text-align: center;
     position: relative;
@@ -450,31 +450,31 @@ footer a:hover {
 
 #site-footer .impressum-content {
     display: flex;
-    justify-content: space-around; /* Creates evenly spaced columns */
+    justify-content: space-around;
     align-items: center;
-    flex-wrap: wrap; /* Allows items to wrap on smaller screens */
-    gap: 1rem 2rem; /* Row and column gap */
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
     margin: 0 auto 1.5rem auto;
     max-width: 960px;
 }
 
 #site-footer .impressum-content p {
-    margin: 0; /* Override default p margin */
+    margin: 0;
 }
 
 #site-footer .impressum-content a {
-    color: var(--dark-text);
+    color: var(--bg-off-white);
     text-decoration: none;
     transition: color 0.2s ease;
 }
 
 #site-footer .impressum-content a:hover {
-    color: var(--orange);
+    color: var(--accent-gold);
 }
 
 #site-footer .copyright-content {
     font-size: 0.9rem;
-    color: #777;
+    color: var(--sky-blue); /* Lighter text for copyright */
 }
 
 /* --- Responsive Design --- */
