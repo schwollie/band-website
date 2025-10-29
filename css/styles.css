@@ -21,7 +21,7 @@
     --about-bg-color: #d3d3d3;     /* About section background */
     --tour-bg-color: #d3d3d3;                   /* Tour section background - light grey */
     --gallery-bg-color: #d3d3d3; /* Gallery section background */
-    --newsletter-bg-color: #eeeeee; /* Newsletter section background */
+    --newsletter-bg-color: #eeeeee00; /* Newsletter section background */
     --footer-bg-color:  #20b258;                 /* Footer background - medium grey */
 
     /* Legacy colors for transition (will be replaced gradually) */
