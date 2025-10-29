@@ -7,7 +7,7 @@ class GalleryHandler {
     constructor() {
         this.galleryImageCount = 9; // Set this to the number of gallery images you have
         this.imagePaths = [];
-        this.secondsPerImage = 4; // Time in seconds to scroll one image width (default: 2 seconds)
+        this.secondsPerImage = 8; // Time in seconds to scroll one image width (default: 2 seconds)
         this.lastScrollTime = Date.now();
         this.currentOffset = 0; // Current scroll offset in pixels
         this.imageWidth = 0; // Average image width for speed calculation
@@ -33,8 +33,15 @@ class GalleryHandler {
         }
         
         // Adjust speed for mobile devices
-        if (window.innerWidth <= 768) {
-            this.secondsPerImage = 1.5; // Faster on mobile (1.5 seconds per image)
+        if (window.innerWidth <= 768 && window.innerHeight > window.innerWidth) {
+            // Portrait mode: slowest
+            this.secondsPerImage = 8;
+        } else if (window.innerWidth <= 768) {
+            // Mobile landscape: medium
+            this.secondsPerImage = 4;
+        } else {
+            // Desktop: default (from constructor)
+            // this.secondsPerImage already set
         }
         
         // Create a shuffled sequence (random order, no duplicates)
@@ -170,6 +177,7 @@ class GalleryHandler {
 
     /**
      * Clamp currentOffset to valid range and apply transform
+     * (Always allow ping-pong scroll, even if gallery is smaller than viewport)
      */
     clampOffsetAndApply() {
         const galleryTrack = document.querySelector('.gallery-track');
@@ -178,8 +186,10 @@ class GalleryHandler {
         const totalWidth = this.totalGalleryWidth > 0
             ? this.totalGalleryWidth
             : (this.shuffledImages.length * this.imageWidth + (2 * this.edgePadding));
-        const maxOffset = Math.max(0, totalWidth - viewportWidth);
-        const minOffset = -this.edgePadding;
+        // Always allow at least edge padding scroll, even if gallery is smaller than viewport
+        let minOffset = -this.edgePadding;
+        let maxOffset = totalWidth - viewportWidth;
+        if (maxOffset < minOffset) maxOffset = minOffset;
         this.currentOffset = Math.max(minOffset, Math.min(maxOffset, this.currentOffset));
         galleryTrack.style.transform = `translateX(-${this.currentOffset}px)`;
     }
@@ -218,39 +228,31 @@ class GalleryHandler {
 
         const animate = () => {
             const now = Date.now();
-            
-            // Check if we should resume auto-scrolling
-            if (this.isManualScrolling && (now - this.lastInteractionTime) > this.autoScrollDelay) {
-                this.isManualScrolling = false;
-            }
 
             // Only auto-scroll if not manually scrolling
             if (!this.isManualScrolling && !this.isDragging) {
-                const deltaTime = (now - this.lastScrollTime) / 1000; // Convert to seconds
-                
-                // Calculate speed based on image width and desired seconds per image
+                const deltaTime = (now - this.lastScrollTime) / 1000; // seconds
                 const scrollSpeed = this.imageWidth > 0 ? this.imageWidth / this.secondsPerImage : 0;
-
-                // Update offset based on direction
                 this.currentOffset += scrollSpeed * deltaTime * this.direction;
 
                 const viewportWidth = this.getViewportWidth();
                 const totalWidth = this.totalGalleryWidth > 0
                     ? this.totalGalleryWidth
                     : (this.shuffledImages.length * this.imageWidth + (2 * this.edgePadding));
-                const maxOffset = Math.max(0, totalWidth - viewportWidth);
-                const minOffset = -this.edgePadding;
+                // Always allow at least edge padding scroll, even if gallery is smaller than viewport
+                let minOffset = -this.edgePadding;
+                let maxOffset = totalWidth - viewportWidth;
+                if (maxOffset < minOffset) maxOffset = minOffset;
 
                 // Check if we've reached the end and reverse direction
                 if (this.currentOffset >= maxOffset && this.direction === 1) {
                     this.currentOffset = maxOffset;
-                    this.direction = -1; // Reverse to left
+                    this.direction = -1;
                 } else if (this.currentOffset <= minOffset && this.direction === -1) {
                     this.currentOffset = minOffset;
-                    this.direction = 1; // Reverse to right
+                    this.direction = 1;
                 }
 
-                // Apply transform
                 galleryTrack.style.transform = `translateX(-${this.currentOffset}px)`;
             }
 

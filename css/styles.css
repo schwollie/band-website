@@ -385,7 +385,7 @@ section.is-visible .show-list li {
 .gallery-scroll-container {
     width: 100vw;
     height: var(--gallery-height);
-    overflow: hidden;
+    overflow: hidden !important;
     position: relative;
     margin-left: calc(-50vw + 50%);
 }
@@ -632,18 +632,4 @@ footer a:hover {
     .gallery-scroll-container {
         height: var(--gallery-height-mobile);
     }
-    
-    .gallery-track {
-        animation: scroll-gallery var(--gallery-scroll-speed) linear infinite;
-    }
-}
-
-/* Gallery section specific styling */
-#gallery {
-    padding: 2rem 0 3rem 0; /* Added bottom padding for background visibility */
-}
-
-#gallery .container {
-    padding: 0 1rem;
-    margin-bottom: 2rem; /* Space between title and gallery */
 }
