@@ -14,8 +14,8 @@
     /* Gallery settings */
     --gallery-height: 400px;         /* Height of gallery images */
     --gallery-height-mobile: 250px;  /* Height of gallery images on mobile */
-    --gallery-scroll-speed: 15s;     /* Time for one full scroll cycle (faster) */
-    --gallery-scroll-speed-mobile: 8s; /* Much faster scroll on mobile (3x faster) */
+    --gallery-scroll-speed: 40s;     /* Time for one full scroll cycle - smooth and continuous */
+    --gallery-scroll-speed-mobile: 15s; /* Faster scroll on mobile */
     --gallery-bg-grey: #8f8f8f;      /* Light grey background for gallery section */
     
     /* Section background colors */
@@ -394,9 +394,8 @@ section.is-visible .show-list li {
 .gallery-track {
     display: flex;
     height: 100%;
-    animation: scroll-gallery var(--gallery-scroll-speed) linear infinite;
     will-change: transform;
-    /* Remove hover pause to ensure continuous scrolling */
+    /* Animation now handled by JavaScript for dynamic loading */
 }
 
 .gallery-item {
@@ -418,7 +417,7 @@ section.is-visible .show-list li {
         transform: translateX(0);
     }
     100% {
-        transform: translateX(-33.333%);
+        transform: translateX(-16.666%); /* Move 1/6 of the total width (since we have 6 copies) */
     }
 }
 
