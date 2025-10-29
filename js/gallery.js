@@ -186,76 +186,27 @@ class GalleryHandler {
 
     /**
      * Setup manual scrolling with mouse/touch events
+     * (DISABLED: Only auto-scroll is allowed)
      */
     setupManualScrolling() {
         const galleryContainer = document.querySelector('.gallery-scroll-container');
         if (!galleryContainer) return;
 
-        // Mouse events
-        galleryContainer.addEventListener('mousedown', (e) => this.handleStart(e.clientX));
-        galleryContainer.addEventListener('mousemove', (e) => this.handleMove(e.clientX));
-        galleryContainer.addEventListener('mouseup', () => this.handleEnd());
-        galleryContainer.addEventListener('mouseleave', () => this.handleEnd());
-
-        // Touch events
-        galleryContainer.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            this.handleStart(e.touches[0].clientX);
-        }, { passive: false });
-        
-        galleryContainer.addEventListener('touchmove', (e) => {
-            e.preventDefault();
-            this.handleMove(e.touches[0].clientX);
-        }, { passive: false });
-        
-        galleryContainer.addEventListener('touchend', () => this.handleEnd());
+        // Disable all pointer, mouse, and touch event listeners for manual scroll/drag
+        // Only auto-scroll is active
 
         // Prevent image dragging
         galleryContainer.addEventListener('dragstart', (e) => e.preventDefault());
-        
-        // Style cursor
-        galleryContainer.style.cursor = 'grab';
-    }
 
-    /**
-     * Handle start of manual scrolling
-     */
-    handleStart(clientX) {
-        this.isDragging = true;
-        this.startX = clientX;
-        this.startOffset = this.currentOffset;
-        this.isManualScrolling = true;
-        this.lastInteractionTime = Date.now();
-        
-        const galleryContainer = document.querySelector('.gallery-scroll-container');
-        if (galleryContainer) {
-            galleryContainer.style.cursor = 'grabbing';
-        }
-    }
+        // Set touch-action to pan-y to allow vertical page scroll, block horizontal drag
+        try {
+            galleryContainer.style.touchAction = 'pan-y'; // modern browsers
+            // @ts-ignore
+            galleryContainer.style.msTouchAction = 'pan-y'; // IE/old Edge
+        } catch {}
 
-    /**
-     * Handle manual scrolling movement
-     */
-    handleMove(clientX) {
-        if (!this.isDragging) return;
-        const deltaX = this.startX - clientX;
-        this.currentOffset = this.startOffset + deltaX;
-        // Clamp and apply with accurate dimensions
-        this.clampOffsetAndApply();
-        this.lastInteractionTime = Date.now();
-    }
-
-    /**
-     * Handle end of manual scrolling
-     */
-    handleEnd() {
-        this.isDragging = false;
-        this.lastInteractionTime = Date.now();
-        
-        const galleryContainer = document.querySelector('.gallery-scroll-container');
-        if (galleryContainer) {
-            galleryContainer.style.cursor = 'grab';
-        }
+        // Set cursor to default (no grab/drag)
+        galleryContainer.style.cursor = 'default';
     }
 
     /**
