@@ -39,8 +39,12 @@
     --black-05: rgba(0, 0, 0, 0.05);
 
     /* Fonts */
-    --header-font: 'Montserrat', sans-serif;
+    --header-font: 'Bebas Neue', 'Montserrat', sans-serif;
     --body-font: 'Lato', sans-serif;
+    
+    /* Pop-style text effects */
+    --text-stroke-width: 2px;
+    --text-stroke-color: var(--pop-black);
 }
 
 * {
@@ -207,9 +211,14 @@ main > section:last-of-type {
 h2 {
     font-family: var(--header-font);
     font-size: 2.5rem;
-    color: var(--text-charcoal);
+    color: var(--pop-electric-yellow);
     margin-bottom: 2rem;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
+    font-weight: 400;
+    /* Pop-art text stroke effect */
+    -webkit-text-stroke: var(--text-stroke-width) var(--text-stroke-color);
+    text-stroke: var(--text-stroke-width) var(--text-stroke-color);
+    paint-order: stroke fill;
 }
 
 p {
@@ -314,11 +323,13 @@ section.is-visible .show-list li {
 .no-shows-content h3 {
     font-family: var(--header-font);
     font-size: 1.8rem;
-    color: var(--sunset-purple);
+    color: var(--pop-electric-yellow);
     margin-bottom: 1rem;
-    font-weight: 700;
+    font-weight: 400;
     letter-spacing: 2px;
-    text-transform: uppercase;
+    /* Pop-art text stroke effect */
+    -webkit-text-stroke: var(--text-stroke-width) var(--text-stroke-color);
+    paint-order: stroke fill;
 }
 
 .no-shows-content p {

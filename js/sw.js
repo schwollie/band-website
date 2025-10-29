@@ -17,7 +17,8 @@ const urlsToCache = [
     '/assets/images/gallery/gallery3.jpeg',
     '/assets/images/gallery/gallery4.jpeg',
     '/assets/images/gallery/gallery5.jpeg',
-    'https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Lato:wght@300;400&display=swap',
+    'https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@700&family=Lato:wght@300;400&display=swap',
+    'https://fonts.gstatic.com/s/bebasneuepro/v1/r05YGLlR-KxAf9GGO8upyDYtStiJ.woff2',
     'https://fonts.gstatic.com/s/montserrat/v26/JTUSjIg1_i6t8kCHKm459Wlhyw.woff2',
     'https://fonts.gstatic.com/s/lato/v24/S6uyw4BMUTPHjx4wXg.woff2'
 ];
