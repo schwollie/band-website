@@ -1,11 +1,11 @@
-const CACHE_NAME = 'LYMINA-band-cache-v0.0.3'; // Incremented cache version
+const CACHE_NAME = 'LYMINA-band-cache-v0.0.4'; // Incremented cache version
 const PREVENT_CACHE = false;
 const urlsToCache = [
     '/',
     '/index.html',
     '/css/styles.css',
     '/js/main.js',
-    '/assets/images/sun.png',
+    '/assets/images/sun_no_glow.png',
     '/assets/images/name.png',
     '/assets/images/favicon.png',
     '/assets/images/gallery/gallery1.jpeg',

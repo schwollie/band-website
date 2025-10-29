@@ -1,12 +1,23 @@
 /* --- Global Styles & Variables --- */
 :root {
-    /* Main Designer-Approved Color Palette */
-    --sky-blue: #a4d0e0;
-    --sunset-purple: #eb8143;
-    --accent-gold: #FBE55C;
-    --text-charcoal: #343434;
-    --bg-off-white: #F9F9F9;
-    --pure-white: #ffffff;
+    /* Pop-Style Color Palette - Bright & In Your Face */
+    --pop-baby-blue: #46b2d3;        /* Bright baby blue for main background */
+    --pop-hot-red: #cc4844;          /* Bright red for scroll background */
+    --pop-electric-yellow: #FFFF00;  /* Electric yellow for accents */
+    --pop-hot-pink: #FF69B4;         /* Hot pink for highlights */
+    --pop-black: #000000;            /* Pure black for text */
+    --pop-white: #FFFFFF;            /* Pure white for contrast */
+    
+    /* Background transition settings */
+    --bg-color-change-threshold: 300px;  /* Pixels scrolled before color starts changing */
+    
+    /* Legacy colors for transition (will be replaced gradually) */
+    --sky-blue: #00BFFF;             /* Updated to pop baby blue */
+    --sunset-purple: #FF1744;        /* Updated to pop hot red */
+    --accent-gold: #FFFF00;          /* Updated to electric yellow */
+    --text-charcoal: #000000;        /* Updated to pure black */
+    --bg-off-white: #FFFFFF;         /* Updated to pure white */
+    --pure-white: #FFFFFF;
 
     /* Additional Colors for UI Elements */
     --light-gray: #e0e0e0;
@@ -16,7 +27,7 @@
     --border-gray: #ccc;
     --dark-gray: #222;
     --hover-cream: #fdfbf1;
-    --error-red: #e74c3c;
+    --error-red: #FF1744;
 
     /* Transparency Variants */
     --white-transparent: rgba(255, 255, 255, 0.0);
@@ -40,14 +51,12 @@
 
 body {
     font-family: var(--body-font);
-    /* New background gradient from Sky Blue to Sunset Purple */
-    background: linear-gradient(135deg, var(--sky-blue) 0%, var(--sunset-purple) 100%);
-    /* Subtle wavy SVG pattern overlay for structure */
-    background-image:
-        url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 20 Q10 10 20 20 T40 20' stroke='%23ffffff' stroke-width='0.5' fill='none' opacity='0.08'/%3E%3C/svg%3E"),
-        linear-gradient(135deg, var(--sky-blue) 0%, var(--sunset-purple) 100%);
-    color: var(--text-charcoal);
+    /* Pop-style solid background - bright baby blue initially */
+    background: var(--pop-baby-blue);
+    color: var(--pop-black);
     line-height: 1.6;
+    /* Smooth transition for background color changes */
+    transition: background-color 0.5s ease;
 }
 
 /* --- Social Media Bar --- */
