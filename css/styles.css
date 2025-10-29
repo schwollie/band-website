@@ -14,8 +14,7 @@
     /* Gallery settings */
     --gallery-height: 400px;         /* Height of gallery images */
     --gallery-height-mobile: 250px;  /* Height of gallery images on mobile */
-    --gallery-scroll-speed: 40s;     /* Time for one full scroll cycle - smooth and continuous */
-    --gallery-scroll-speed-mobile: 15s; /* Faster scroll on mobile */
+    --gallery-scroll-speed: 1000s;     /* Time for one full scroll cycle - smooth and continuous */
     --gallery-bg-grey: #8f8f8f;      /* Light grey background for gallery section */
     
     /* Section background colors */
@@ -635,7 +634,7 @@ footer a:hover {
     }
     
     .gallery-track {
-        animation: scroll-gallery var(--gallery-scroll-speed-mobile) linear infinite;
+        animation: scroll-gallery var(--gallery-scroll-speed) linear infinite;
     }
 }
 

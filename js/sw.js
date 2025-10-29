@@ -1,4 +1,4 @@
-const CACHE_NAME = 'LYMINA-band-cache-v0.1.0'; // Incremented for auto-scrolling gallery
+const CACHE_NAME = 'LYMINA-band-cache-v0.1.003'; // Incremented for auto-scrolling gallery
 const PREVENT_CACHE = false;
 const urlsToCache = [
     '/',
@@ -12,11 +12,15 @@ const urlsToCache = [
     '/assets/icons/youtube.png',
     '/assets/icons/tiktok.png',
     '/assets/videos/film-grain.mp4',
-    '/assets/images/gallery/gallery1.jpeg',
-    '/assets/images/gallery/gallery2.jpeg',
-    '/assets/images/gallery/gallery3.jpeg',
-    '/assets/images/gallery/gallery4.jpeg',
-    '/assets/images/gallery/gallery5.jpeg',
+    '/assets/images/gallery/galery1.jpg',
+    '/assets/images/gallery/galery2.jpg',
+    '/assets/images/gallery/galery3.jpg',
+    '/assets/images/gallery/galery4.jpg',
+    '/assets/images/gallery/galery5.jpg',
+    '/assets/images/gallery/galery6.jpg',
+    '/assets/images/gallery/galery7.jpg',
+    '/assets/images/gallery/galery8.jpg',
+    '/assets/images/gallery/galery9.jpg',
     'https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@700&family=Space+Mono:wght@400;700&family=Lato:wght@300;400&display=swap',
     'https://fonts.gstatic.com/s/bebasneuepro/v1/r05YGLlR-KxAf9GGO8upyDYtStiJ.woff2',
     'https://fonts.gstatic.com/s/montserrat/v26/JTUSjIg1_i6t8kCHKm459Wlhyw.woff2',

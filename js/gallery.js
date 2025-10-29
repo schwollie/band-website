@@ -1,49 +1,108 @@
 /**
  * Gallery Handler
- * Dynamic infinite scroll with random image loading
+ * Ping-pong scroll (left-to-right, then right-to-left)
  */
 
 class GalleryHandler {
     constructor() {
-        this.galleryImageCount = 5; // Set this to the number of gallery images you have
+        this.galleryImageCount = 9; // Set this to the number of gallery images you have
         this.imagePaths = [];
-        this.scrollSpeed = 50; // Pixels per second
+        this.secondsPerImage = 4; // Time in seconds to scroll one image width (default: 2 seconds)
         this.lastScrollTime = Date.now();
-        this.currentOffset = 0;
-        this.minImages = 15; // Minimum images to keep in the DOM
-        this.imageWidth = 0; // Will be set after first image loads
+        this.currentOffset = 0; // Current scroll offset in pixels
+        this.imageWidth = 0; // Average image width for speed calculation
+        this.totalGalleryWidth = 0; // Actual total width of all images including padding
         this.animationId = null;
+        this.shuffledImages = []; // Shuffled image sequence (no duplicates)
+        this.direction = 1; // 1 for right, -1 for left
+        this.edgePadding = 50; // Padding for first and last image (in pixels)
+        
+        // Manual scroll properties
+        this.isManualScrolling = false;
+        this.isDragging = false;
+        this.startX = 0;
+        this.startOffset = 0;
+        this.lastInteractionTime = 0;
+        this.autoScrollDelay = 3000; // Resume auto-scroll after 3 seconds of inactivity
     }
 
     init() {
         // Build image paths array
         for (let i = 1; i <= this.galleryImageCount; i++) {
-            this.imagePaths.push(`assets/images/gallery/gallery${i}.jpeg`);
+            this.imagePaths.push(`assets/images/gallery/galery${i}.jpg`);
         }
         
+        // Adjust speed for mobile devices
+        if (window.innerWidth <= 768) {
+            this.secondsPerImage = 1.5; // Faster on mobile (1.5 seconds per image)
+        }
+        
+        // Create a shuffled sequence (random order, no duplicates)
+        this.createShuffledSequence();
+        
         this.renderGallery();
+        this.setupManualScrolling();
+        // Recalculate dimensions on resize and clamp offset
+        window.addEventListener('resize', () => {
+            this.calculateGalleryDimensions();
+            this.clampOffsetAndApply();
+        });
         this.startAnimation();
     }
 
     /**
-     * Get a random image path
+     * Create a shuffled sequence of images (Fisher-Yates shuffle)
+     * Uses each image exactly once in random order
      */
-    getRandomImage() {
-        return this.imagePaths[Math.floor(Math.random() * this.imagePaths.length)];
+    createShuffledSequence() {
+        // Copy the original array
+        this.shuffledImages = [...this.imagePaths];
+        
+        // Fisher-Yates shuffle algorithm
+        for (let i = this.shuffledImages.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [this.shuffledImages[i], this.shuffledImages[j]] = [this.shuffledImages[j], this.shuffledImages[i]];
+        }
+    }
+
+    /**
+     * Get image by index
+     */
+    getImageByIndex(index) {
+        if (index < 0 || index >= this.shuffledImages.length) return null;
+        return this.shuffledImages[index];
     }
 
     /**
      * Create a new gallery item element
      */
-    createGalleryItem(imagePath) {
+    createGalleryItem(imagePath, index) {
         const div = document.createElement('div');
         div.className = 'gallery-item';
-        div.innerHTML = `<img src="${imagePath}" alt="Lymina gallery image" loading="lazy">`;
+        
+        // Add padding classes for first and last images
+        if (index === 0) {
+            div.classList.add('gallery-item-first');
+            div.style.paddingLeft = `${this.edgePadding}px`;
+        } else if (index === this.shuffledImages.length - 1) {
+            div.classList.add('gallery-item-last');
+            div.style.paddingRight = `${this.edgePadding}px`;
+        }
+        
+        div.innerHTML = `<img src="${imagePath}" alt="Lymina galery image" loading="lazy">`;
         return div;
     }
 
     /**
-     * Initialize gallery with random images
+     * Get the visible width of the gallery viewport (container)
+     */
+    getViewportWidth() {
+        const container = document.querySelector('.gallery-scroll-container');
+        return container ? container.clientWidth : window.innerWidth;
+    }
+
+    /**
+     * Initialize gallery with images
      */
     renderGallery() {
         const galleryTrack = document.querySelector('.gallery-track');
@@ -52,18 +111,150 @@ class GalleryHandler {
         // Clear existing content
         galleryTrack.innerHTML = '';
 
-        // Add initial random images
-        for (let i = 0; i < this.minImages; i++) {
-            const item = this.createGalleryItem(this.getRandomImage());
+        // Add all images to the track
+        for (let i = 0; i < this.shuffledImages.length; i++) {
+            const imagePath = this.shuffledImages[i];
+            const item = this.createGalleryItem(imagePath, i);
             galleryTrack.appendChild(item);
         }
 
-        // Set image width once first image loads
-        const firstImg = galleryTrack.querySelector('img');
-        if (firstImg) {
-            firstImg.onload = () => {
-                this.imageWidth = firstImg.parentElement.offsetWidth;
-            };
+        // Calculate dimensions once all images are loaded
+        this.calculateGalleryDimensions();
+        // Also clamp and apply initial transform
+        this.clampOffsetAndApply();
+    }
+
+    /**
+     * Calculate actual gallery dimensions
+     */
+    calculateGalleryDimensions() {
+        const galleryTrack = document.querySelector('.gallery-track');
+        if (!galleryTrack) return;
+
+        const items = galleryTrack.querySelectorAll('.gallery-item');
+        if (items.length === 0) return;
+
+        const images = galleryTrack.querySelectorAll('img');
+        let loadedCount = 0;
+        const totalImages = images.length;
+
+        const calculateWhenReady = () => {
+            // Use scrollWidth of the track for accurate full content width (includes padding)
+            const totalWidth = galleryTrack.scrollWidth;
+
+            // Compute average image width (exclude padding we added on edges)
+            // We estimate average by subtracting edgePadding twice from total and divide by count
+            const count = items.length;
+            const avgWidth = (totalWidth - (2 * this.edgePadding)) / Math.max(1, count);
+
+            this.totalGalleryWidth = totalWidth;
+            this.imageWidth = avgWidth;
+            // After recalculating, ensure current offset is within new bounds
+            this.clampOffsetAndApply();
+        };
+
+        // If any image isn't loaded, wait; else compute immediately
+        let allLoaded = true;
+        images.forEach(img => { if (!img.complete) allLoaded = false; });
+        if (!allLoaded) {
+            images.forEach(img => {
+                img.onload = () => {
+                    loadedCount++;
+                    if (loadedCount === totalImages) setTimeout(calculateWhenReady, 10);
+                };
+            });
+        } else {
+            setTimeout(calculateWhenReady, 10);
+        }
+    }
+
+    /**
+     * Clamp currentOffset to valid range and apply transform
+     */
+    clampOffsetAndApply() {
+        const galleryTrack = document.querySelector('.gallery-track');
+        if (!galleryTrack) return;
+        const viewportWidth = this.getViewportWidth();
+        const totalWidth = this.totalGalleryWidth > 0
+            ? this.totalGalleryWidth
+            : (this.shuffledImages.length * this.imageWidth + (2 * this.edgePadding));
+        const maxOffset = Math.max(0, totalWidth - viewportWidth);
+        const minOffset = -this.edgePadding;
+        this.currentOffset = Math.max(minOffset, Math.min(maxOffset, this.currentOffset));
+        galleryTrack.style.transform = `translateX(-${this.currentOffset}px)`;
+    }
+
+    /**
+     * Setup manual scrolling with mouse/touch events
+     */
+    setupManualScrolling() {
+        const galleryContainer = document.querySelector('.gallery-scroll-container');
+        if (!galleryContainer) return;
+
+        // Mouse events
+        galleryContainer.addEventListener('mousedown', (e) => this.handleStart(e.clientX));
+        galleryContainer.addEventListener('mousemove', (e) => this.handleMove(e.clientX));
+        galleryContainer.addEventListener('mouseup', () => this.handleEnd());
+        galleryContainer.addEventListener('mouseleave', () => this.handleEnd());
+
+        // Touch events
+        galleryContainer.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            this.handleStart(e.touches[0].clientX);
+        }, { passive: false });
+        
+        galleryContainer.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            this.handleMove(e.touches[0].clientX);
+        }, { passive: false });
+        
+        galleryContainer.addEventListener('touchend', () => this.handleEnd());
+
+        // Prevent image dragging
+        galleryContainer.addEventListener('dragstart', (e) => e.preventDefault());
+        
+        // Style cursor
+        galleryContainer.style.cursor = 'grab';
+    }
+
+    /**
+     * Handle start of manual scrolling
+     */
+    handleStart(clientX) {
+        this.isDragging = true;
+        this.startX = clientX;
+        this.startOffset = this.currentOffset;
+        this.isManualScrolling = true;
+        this.lastInteractionTime = Date.now();
+        
+        const galleryContainer = document.querySelector('.gallery-scroll-container');
+        if (galleryContainer) {
+            galleryContainer.style.cursor = 'grabbing';
+        }
+    }
+
+    /**
+     * Handle manual scrolling movement
+     */
+    handleMove(clientX) {
+        if (!this.isDragging) return;
+        const deltaX = this.startX - clientX;
+        this.currentOffset = this.startOffset + deltaX;
+        // Clamp and apply with accurate dimensions
+        this.clampOffsetAndApply();
+        this.lastInteractionTime = Date.now();
+    }
+
+    /**
+     * Handle end of manual scrolling
+     */
+    handleEnd() {
+        this.isDragging = false;
+        this.lastInteractionTime = Date.now();
+        
+        const galleryContainer = document.querySelector('.gallery-scroll-container');
+        if (galleryContainer) {
+            galleryContainer.style.cursor = 'grab';
         }
     }
 
@@ -76,57 +267,47 @@ class GalleryHandler {
 
         const animate = () => {
             const now = Date.now();
-            const deltaTime = (now - this.lastScrollTime) / 1000; // Convert to seconds
+            
+            // Check if we should resume auto-scrolling
+            if (this.isManualScrolling && (now - this.lastInteractionTime) > this.autoScrollDelay) {
+                this.isManualScrolling = false;
+            }
+
+            // Only auto-scroll if not manually scrolling
+            if (!this.isManualScrolling && !this.isDragging) {
+                const deltaTime = (now - this.lastScrollTime) / 1000; // Convert to seconds
+                
+                // Calculate speed based on image width and desired seconds per image
+                const scrollSpeed = this.imageWidth > 0 ? this.imageWidth / this.secondsPerImage : 0;
+
+                // Update offset based on direction
+                this.currentOffset += scrollSpeed * deltaTime * this.direction;
+
+                const viewportWidth = this.getViewportWidth();
+                const totalWidth = this.totalGalleryWidth > 0
+                    ? this.totalGalleryWidth
+                    : (this.shuffledImages.length * this.imageWidth + (2 * this.edgePadding));
+                const maxOffset = Math.max(0, totalWidth - viewportWidth);
+                const minOffset = -this.edgePadding;
+
+                // Check if we've reached the end and reverse direction
+                if (this.currentOffset >= maxOffset && this.direction === 1) {
+                    this.currentOffset = maxOffset;
+                    this.direction = -1; // Reverse to left
+                } else if (this.currentOffset <= minOffset && this.direction === -1) {
+                    this.currentOffset = minOffset;
+                    this.direction = 1; // Reverse to right
+                }
+
+                // Apply transform
+                galleryTrack.style.transform = `translateX(-${this.currentOffset}px)`;
+            }
+
             this.lastScrollTime = now;
-
-            // Update offset
-            this.currentOffset += this.scrollSpeed * deltaTime;
-
-            // Apply transform
-            galleryTrack.style.transform = `translateX(-${this.currentOffset}px)`;
-
-            // Check if we need to add/remove images
-            this.manageImages(galleryTrack);
-
             this.animationId = requestAnimationFrame(animate);
         };
 
         animate();
-    }
-
-    /**
-     * Manage adding and removing images dynamically
-     */
-    manageImages(galleryTrack) {
-        if (!this.imageWidth) {
-            // Wait for image width to be set
-            const firstImg = galleryTrack.querySelector('img');
-            if (firstImg && firstImg.complete) {
-                this.imageWidth = firstImg.parentElement.offsetWidth;
-            }
-            return;
-        }
-
-        const items = galleryTrack.children;
-        
-        // Remove images that have scrolled off screen (left side)
-        while (items.length > this.minImages && this.currentOffset > this.imageWidth) {
-            galleryTrack.removeChild(items[0]);
-            this.currentOffset -= this.imageWidth;
-        }
-
-        // Add new images to the right if needed
-        const totalWidth = items.length * this.imageWidth;
-        const viewportWidth = window.innerWidth;
-        
-        while (totalWidth - this.currentOffset < viewportWidth + this.imageWidth * 3) {
-            const newItem = this.createGalleryItem(this.getRandomImage());
-            galleryTrack.appendChild(newItem);
-            
-            // Update totalWidth calculation
-            const updatedTotalWidth = galleryTrack.children.length * this.imageWidth;
-            if (updatedTotalWidth <= totalWidth) break; // Prevent infinite loop
-        }
     }
 
     /**
@@ -139,17 +320,30 @@ class GalleryHandler {
         }
     }
 
+    /**
+     * Set the scroll speed in seconds per image
+     */
+    setScrollSpeed(secondsPerImage) {
+        this.secondsPerImage = secondsPerImage;
+    }
+
     // Method to update gallery image count
     setImageCount(count) {
         this.galleryImageCount = count;
         this.imagePaths = [];
         for (let i = 1; i <= count; i++) {
-            this.imagePaths.push(`assets/images/gallery/gallery${i}.jpeg`);
+            this.imagePaths.push(`assets/images/gallery/galery${i}.jpg`);
         }
+        this.createShuffledSequence();
         this.stopAnimation();
         this.currentOffset = 0;
+        this.direction = 1;
+        this.isManualScrolling = false;
+        this.isDragging = false;
+        this.totalGalleryWidth = 0; // Reset calculated width
         this.lastScrollTime = Date.now();
         this.renderGallery();
+        this.setupManualScrolling();
         this.startAnimation();
     }
 }
