@@ -1,4 +1,4 @@
-const CACHE_NAME = 'LYMINA-band-cache-v0.0.5'; // Incremented cache version for custom icons
+const CACHE_NAME = 'LYMINA-band-cache-v0.0.6'; // Incremented for film grain video
 const PREVENT_CACHE = false;
 const urlsToCache = [
     '/',
@@ -11,6 +11,7 @@ const urlsToCache = [
     '/assets/icons/instagram.png',
     '/assets/icons/youtube.png',
     '/assets/icons/tiktok.png',
+    '/assets/videos/film-grain.mp4',
     '/assets/images/gallery/gallery1.jpeg',
     '/assets/images/gallery/gallery2.jpeg',
     '/assets/images/gallery/gallery3.jpeg',

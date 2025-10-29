@@ -21,6 +21,7 @@ class BackgroundHandler {
 
         // Grain/noise effect properties
         this.grainEnabled = true;
+        this.grainVideoSpeed = 0.24; // Playback speed for video grain (0.1-1.0)
 
         this.init();
     }
@@ -138,22 +139,27 @@ class BackgroundHandler {
     }
 
     /**
-     * Applies static white grain effect over background only
+     * Applies grain effect (static SVG fallback + MP4 video when loaded)
      */
     applyGrainEffect() {
-        const grain = document.createElement('div');
-        grain.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            pointer-events: none;
-            z-index: -1;
-            opacity: 0.10;
-            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.4' numOctaves='1'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='discrete' tableValues='0 0 0 0.8 0.8 1'/%3E%3C/feComponentTransfer%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-        `;
-        document.body.appendChild(grain);
+        // Static grain fallback (keeps exactly same implementation)
+        //const grain = document.createElement('div');
+        //grain.style.cssText = `position:fixed;top:0;left:0;width:100%;height:100vh;pointer-events:none;z-index:-1;opacity:0.10;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.4' numOctaves='1'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='discrete' tableValues='0 0 0 0.8 0.8 1'/%3E%3C/feComponentTransfer%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`;
+        //document.body.appendChild(grain);
+        
+        // Try to load MP4 film grain
+        const v = document.createElement('video');
+        v.style.cssText = `position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);min-width:100%;min-height:100%;width:auto;height:auto;object-fit:cover;pointer-events:none;z-index:-1;opacity:0.2;mix-blend-mode:screen`;
+        v.muted = v.loop = v.playsInline = true;
+        
+        v.oncanplaythrough = () => {
+            v.playbackRate = this.grainVideoSpeed;
+            v.play().then(() => grain.remove()).catch(() => {});
+        };
+        
+        v.onerror = () => v.remove();
+        v.src = 'assets/videos/film-grain.mp4';
+        document.body.appendChild(v);
     }
 }
 
