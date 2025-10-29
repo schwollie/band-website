@@ -13,7 +13,9 @@
     
     /* Gallery settings */
     --gallery-height: 400px;         /* Height of gallery images */
-    --gallery-scroll-speed: 25s;     /* Time for one full scroll cycle (faster) */
+    --gallery-height-mobile: 250px;  /* Height of gallery images on mobile */
+    --gallery-scroll-speed: 15s;     /* Time for one full scroll cycle (faster) */
+    --gallery-scroll-speed-mobile: 8s; /* Much faster scroll on mobile (3x faster) */
     --gallery-bg-grey: #8f8f8f;      /* Light grey background for gallery section */
     
     /* Section background colors */
@@ -627,6 +629,15 @@ footer a:hover {
     .ticket-btn { width: 100%; }
     #newsletter-form { flex-direction: column; }
     #newsletter-form input[type="email"] { width: 100%; }
+    
+    /* Gallery adjustments for mobile */
+    .gallery-scroll-container {
+        height: var(--gallery-height-mobile);
+    }
+    
+    .gallery-track {
+        animation: scroll-gallery var(--gallery-scroll-speed-mobile) linear infinite;
+    }
 }
 
 /* Gallery section specific styling */
