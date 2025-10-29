@@ -16,6 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Background and visual effects
     const backgroundHandler = new window.BackgroundHandler();
+    // Make available globally for debugging
+    window.backgroundHandler = backgroundHandler;
     const logoHandler = new window.LogoHandler();
     const animationHandler = new window.AnimationHandler();
     
