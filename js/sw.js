@@ -1,4 +1,4 @@
-const CACHE_NAME = 'LYMINA-band-cache-v0.0.4'; // Incremented cache version
+const CACHE_NAME = 'LYMINA-band-cache-v0.0.5'; // Incremented cache version for custom icons
 const PREVENT_CACHE = false;
 const urlsToCache = [
     '/',
@@ -8,6 +8,9 @@ const urlsToCache = [
     '/assets/images/sun_no_glow.png',
     '/assets/images/name.png',
     '/assets/images/favicon.png',
+    '/assets/icons/instagram.png',
+    '/assets/icons/youtube.png',
+    '/assets/icons/tiktok.png',
     '/assets/images/gallery/gallery1.jpeg',
     '/assets/images/gallery/gallery2.jpeg',
     '/assets/images/gallery/gallery3.jpeg',

@@ -81,16 +81,27 @@ body {
 }
 
 .social-bar a {
-    color: var(--pure-white);
     margin: 0 1.2rem;
-    font-size: 1.6rem; /* Icon size */
-    transition: color 0.3s ease, transform 0.3s ease;
+    transition: transform 0.3s ease, filter 0.3s ease;
     display: inline-block; /* Allows for transform */
 }
 
+/* Pop-style custom icon styling */
+.social-icon {
+    width: 52px;
+    height: 52px;
+    /* Make black icons white using CSS filter */
+    filter: brightness(0) invert(1);
+    transition: filter 0.3s ease, transform 0.3s ease;
+}
+
 .social-bar a:hover {
-    color: var(--accent-gold);
     transform: scale(1.2);
+}
+
+.social-bar a:hover .social-icon {
+    /* On hover, change to pop electric yellow */
+    filter: brightness(0) saturate(100%) invert(85%) sepia(100%) saturate(2000%) hue-rotate(15deg) brightness(110%) contrast(100%);
 }
 
 /* --- Parallax Hero Section --- */
