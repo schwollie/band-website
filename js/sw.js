@@ -1,4 +1,4 @@
-const CACHE_NAME = 'LYMINA-band-cache-v0.0.9'; // Incremented for auto-scrolling gallery
+const CACHE_NAME = 'LYMINA-band-cache-v0.0.99'; // Incremented for auto-scrolling gallery
 const PREVENT_CACHE = false;
 const urlsToCache = [
     '/',

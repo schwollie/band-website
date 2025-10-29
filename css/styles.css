@@ -195,7 +195,12 @@ main {
 }
 
 section {
-    background-color: var(--bg-off-white);
+    position: relative;
+    width: 100vw;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
     padding: 5rem 0;
     margin-bottom: 35vh;
     box-shadow: 0 10px 30px var(--black-10);
@@ -203,6 +208,7 @@ section {
     opacity: 0;
     transform: translateY(30px);
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    background-color: var(--bg-off-white);
 }
 
 /* Animation visible state */
@@ -537,6 +543,11 @@ footer a:hover {
     text-align: center;
     position: relative;
     z-index: 2;
+    width: 100vw;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
 }
 
 #site-footer .impressum-content {
