@@ -40,11 +40,13 @@
 
     /* Fonts */
     --header-font: 'Bebas Neue', 'Montserrat', sans-serif;
-    --body-font: 'Lato', sans-serif;
+    --body-font: 'Space Mono', 'Lato', sans-serif;
     
     /* Pop-style text effects */
     --text-stroke-width: 2px;
     --text-stroke-color: var(--pop-black);
+    --header-letter-spacing: 2px;  /* Controls width/stretch of headers */
+    --body-letter-spacing: 1px;  /* Controls width/stretch of normal text */
 }
 
 * {
@@ -59,6 +61,7 @@ body {
     background: var(--pop-baby-blue);
     color: var(--pop-black);
     line-height: 1.6;
+    letter-spacing: var(--body-letter-spacing);
     /* Smooth transition for background color changes */
     transition: background-color 0.5s ease;
 }
@@ -213,7 +216,7 @@ h2 {
     font-size: 2.5rem;
     color: var(--pop-electric-yellow);
     margin-bottom: 2rem;
-    letter-spacing: 2px;
+    letter-spacing: var(--header-letter-spacing);
     font-weight: 400;
     /* Pop-art text stroke effect */
     -webkit-text-stroke: var(--text-stroke-width) var(--text-stroke-color);
@@ -326,7 +329,7 @@ section.is-visible .show-list li {
     color: var(--pop-electric-yellow);
     margin-bottom: 1rem;
     font-weight: 400;
-    letter-spacing: 2px;
+    letter-spacing: var(--header-letter-spacing);
     /* Pop-art text stroke effect */
     -webkit-text-stroke: var(--text-stroke-width) var(--text-stroke-color);
     paint-order: stroke fill;
@@ -530,31 +533,56 @@ footer a:hover {
 
 #site-footer .impressum-content {
     display: flex;
-    justify-content: space-around;
+    flex-direction: row;
+    justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem 2rem;
+    gap: 2rem;
     margin: 0 auto 1.5rem auto;
     max-width: 960px;
+    font-family: var(--header-font);
+    font-size: 1.2rem;
+    letter-spacing: var(--header-letter-spacing);
+    text-align: center;
+    flex-wrap: wrap;
 }
 
 #site-footer .impressum-content p {
     margin: 0;
+    color: var(--pop-electric-yellow);
+    -webkit-text-stroke: var(--text-stroke-width) var(--text-stroke-color);
+    text-stroke: var(--text-stroke-width) var(--text-stroke-color);
+    paint-order: stroke fill;
+}
+
+#site-footer .impressum-content strong {
+    color: var(--pop-electric-yellow);
+    -webkit-text-stroke: var(--text-stroke-width) var(--text-stroke-color);
+    text-stroke: var(--text-stroke-width) var(--text-stroke-color);
+    paint-order: stroke fill;
 }
 
 #site-footer .impressum-content a {
-    color: var(--bg-off-white);
+    color: var(--pop-electric-yellow);
     text-decoration: none;
     transition: color 0.2s ease;
+    -webkit-text-stroke: var(--text-stroke-width) var(--text-stroke-color);
+    text-stroke: var(--text-stroke-width) var(--text-stroke-color);
+    paint-order: stroke fill;
 }
 
 #site-footer .impressum-content a:hover {
-    color: var(--accent-gold);
+    color: var(--pop-hot-pink);
 }
 
 #site-footer .copyright-content {
-    font-size: 0.9rem;
-    color: var(--sky-blue); /* Lighter text for copyright */
+    font-family: var(--header-font);
+    font-size: 1rem;
+    letter-spacing: var(--header-letter-spacing);
+    color: var(--pop-electric-yellow);
+    -webkit-text-stroke: var(--text-stroke-width) var(--text-stroke-color);
+    text-stroke: var(--text-stroke-width) var(--text-stroke-color);
+    paint-order: stroke fill;
+    text-align: center;
 }
 
 /* --- Responsive Design --- */
