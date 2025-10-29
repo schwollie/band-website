@@ -125,10 +125,12 @@ class GalleryHandler {
             galleryTrack.appendChild(item);
         }
 
-        // Calculate dimensions once all images are loaded
+        // Start animation immediately (even if images are not loaded)
+        // Calculate initial dimensions (may be rough)
         this.calculateGalleryDimensions();
-        // Also clamp and apply initial transform
         this.clampOffsetAndApply();
+        // Animation is started in init(), so do not start again here
+        // As images load, dimensions will be updated
     }
 
     /**
@@ -146,33 +148,23 @@ class GalleryHandler {
         const totalImages = images.length;
 
         const calculateWhenReady = () => {
-            // Use scrollWidth of the track for accurate full content width (includes padding)
             const totalWidth = galleryTrack.scrollWidth;
-
-            // Compute average image width (exclude padding we added on edges)
-            // We estimate average by subtracting edgePadding twice from total and divide by count
             const count = items.length;
             const avgWidth = (totalWidth - (2 * this.edgePadding)) / Math.max(1, count);
-
             this.totalGalleryWidth = totalWidth;
             this.imageWidth = avgWidth;
-            // After recalculating, ensure current offset is within new bounds
             this.clampOffsetAndApply();
         };
 
-        // If any image isn't loaded, wait; else compute immediately
-        let allLoaded = true;
-        images.forEach(img => { if (!img.complete) allLoaded = false; });
-        if (!allLoaded) {
-            images.forEach(img => {
-                img.onload = () => {
-                    loadedCount++;
-                    if (loadedCount === totalImages) setTimeout(calculateWhenReady, 10);
-                };
-            });
-        } else {
-            setTimeout(calculateWhenReady, 10);
-        }
+        // As each image loads, recalculate dimensions
+        images.forEach(img => {
+            img.onload = () => {
+                loadedCount++;
+                calculateWhenReady();
+            };
+        });
+        // Also calculate once at the start (in case some images are cached or load instantly)
+        setTimeout(calculateWhenReady, 10);
     }
 
     /**
