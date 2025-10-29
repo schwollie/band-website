@@ -11,6 +11,18 @@
     /* Background transition settings */
     --bg-color-change-threshold: 300px;  /* Pixels scrolled before color starts changing */
     
+    /* Gallery settings */
+    --gallery-height: 400px;         /* Height of gallery images */
+    --gallery-scroll-speed: 25s;     /* Time for one full scroll cycle (faster) */
+    --gallery-bg-grey: #8f8f8f;      /* Light grey background for gallery section */
+    
+    /* Section background colors */
+    --about-bg-color: #d3d3d3;     /* About section background */
+    --tour-bg-color: #d3d3d3;                   /* Tour section background - light grey */
+    --gallery-bg-color: #d3d3d3; /* Gallery section background */
+    --newsletter-bg-color: #eeeeee; /* Newsletter section background */
+    --footer-bg-color:  #20b258;                 /* Footer background - medium grey */
+
     /* Legacy colors for transition (will be replaced gradually) */
     --sky-blue: #00BFFF;             /* Updated to pop baby blue */
     --sunset-purple: #FF1744;        /* Updated to pop hot red */
@@ -46,7 +58,7 @@
     --text-stroke-width: 2px;
     --text-stroke-color: var(--pop-black);
     --header-letter-spacing: 2px;  /* Controls width/stretch of headers */
-    --body-letter-spacing: 1px;  /* Controls width/stretch of normal text */
+    --body-letter-spacing: 2px;  /* Controls width/stretch of normal text */
 }
 
 * {
@@ -64,6 +76,8 @@ body {
     letter-spacing: var(--body-letter-spacing);
     /* Smooth transition for background color changes */
     transition: background-color 0.5s ease;
+    /* Prevent horizontal scrolling */
+    overflow-x: hidden;
 }
 
 /* --- Social Media Bar --- */
@@ -202,6 +216,23 @@ main > section:last-of-type {
     margin-bottom: 0;
     box-shadow: none;
     border-bottom: 1px solid var(--light-gray); /* Add subtle line to last section */
+}
+
+/* Individual section background colors */
+#about {
+    background-color: var(--about-bg-color);
+}
+
+#tour {
+    background-color: var(--tour-bg-color);
+}
+
+#gallery {
+    background-color: var(--gallery-bg-color);
+}
+
+#newsletter {
+    background-color: var(--newsletter-bg-color);
 }
 
 .container {
@@ -344,66 +375,43 @@ section.is-visible .show-list li {
 }
 
 /* --- Gallery Slideshow --- */
-.slideshow-container {
-    position: relative;
-    max-width: 800px;
-    margin: auto;
+.gallery-scroll-container {
+    width: 100vw;
+    height: var(--gallery-height);
     overflow: hidden;
-    aspect-ratio: 16 / 9;
-    background: transparent;
-    border-radius: 8px;
+    position: relative;
+    margin-left: calc(-50vw + 50%);
 }
 
-.slides-wrapper {
+.gallery-track {
     display: flex;
     height: 100%;
-    transition: transform 0.5s ease-in-out;
+    animation: scroll-gallery var(--gallery-scroll-speed) linear infinite;
+    will-change: transform;
+    /* Remove hover pause to ensure continuous scrolling */
 }
 
-.slide {
-    min-width: 100%;
+.gallery-item {
+    flex-shrink: 0;
     height: 100%;
+    margin-right: 1rem; /* Small gap between images */
 }
 
-.slide img {
-    width: 100%;
+.gallery-item img {
     height: 100%;
-    object-fit: contain;
-    filter: grayscale(100%);
-    transition: filter 0.4s ease;
-}
-
-.slide img:hover {
-    filter: grayscale(0%);
-}
-
-.prev, .next {
-    cursor: pointer;
-    position: absolute;
-    top: 50%;
     width: auto;
-    padding: 16px;
-    margin-top: -30px;
-    color: var(--pure-white);
-    font-weight: bold;
-    font-size: 24px;
-    transition: 0.3s ease;
-    user-select: none;
-    background-color: var(--black-40);
-    z-index: 2;
-    border-radius: 3px;
+    display: block;
+    border: 8px solid var(--pop-black);
+    box-shadow: 0 4px 8px var(--black-15);
 }
 
-.next {
-    right: 1rem;
-}
-.prev {
-    left: 1rem;
-}
-
-.prev:hover, .next:hover {
-    background-color: var(--accent-gold);
-    color: var(--text-charcoal);
+@keyframes scroll-gallery {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-33.333%);
+    }
 }
 
 /* --- Newsletter Section --- */
@@ -523,7 +531,7 @@ footer a:hover {
 
 /* --- Site Footer / Impressum --- */
 #site-footer {
-    background-color: var(--sunset-purple);
+    background-color: var(--footer-bg-color);
     color: var(--bg-off-white);
     padding: 2rem 1rem;
     text-align: center;
@@ -608,4 +616,14 @@ footer a:hover {
     .ticket-btn { width: 100%; }
     #newsletter-form { flex-direction: column; }
     #newsletter-form input[type="email"] { width: 100%; }
+}
+
+/* Gallery section specific styling */
+#gallery {
+    padding: 2rem 0 3rem 0; /* Added bottom padding for background visibility */
+}
+
+#gallery .container {
+    padding: 0 1rem;
+    margin-bottom: 2rem; /* Space between title and gallery */
 }

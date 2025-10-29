@@ -1,4 +1,4 @@
-const CACHE_NAME = 'LYMINA-band-cache-v0.0.7'; // Incremented for Space Mono font
+const CACHE_NAME = 'LYMINA-band-cache-v0.0.9'; // Incremented for auto-scrolling gallery
 const PREVENT_CACHE = false;
 const urlsToCache = [
     '/',
