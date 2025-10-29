@@ -64,13 +64,14 @@
         </section>
 
         <section id="newsletter">
-            <div class="container" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+            <div class="container">
                 <h2>SPRING REIN IN UNSEREN NEWSLETTER</h2>
                 <p>Erhalte die neuesten Nachrichten, private Fotos, Tourdaten und exklusive Inhalte direkt in dein Postfach.</p>
-                <!-- Begin EO Email Form -->
-                <div id="eo-newsletter-form" style="width: 100%; display: flex; justify-content: center; align-items: center; margin: 1.5rem 0 0 0;"></div>
-                <script async src="https://eomail5.com/form/3c8809c8-b4f4-11f0-8a8d-330d031edcc1.js" data-form="3c8809c8-b4f4-11f0-8a8d-330d031edcc1"></script>
-                <!-- End EO Email Form -->
+                <form id="newsletter-form">
+                    <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
+                    <button type="submit">ABONNIEREN</button>
+                </form>
+                <p id="form-message"></p>
             </div>
         </section>
     </main>
