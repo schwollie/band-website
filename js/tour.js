@@ -7,10 +7,10 @@ class TourHandler {
     constructor() {
         // Tour dates data
         this.tourDates = [
-            { date: "JUL 25, 2025", venue: "The Sunnyvale", location: "Austin, TX", soldOut: false },
-            { date: "AUG 12, 2025", venue: "The Root Cellar", location: "Kingston, JM", soldOut: false },
-            { date: "SEP 05, 2025", venue: "Beachside Tavern", location: "San Diego, CA", soldOut: true },
-            { date: "OCT 19, 2025", venue: "The Folk Fest", location: "Asheville, NC", soldOut: false },
+            //{ date: "JUL 25, 2025", venue: "The Sunnyvale", location: "Austin, TX", soldOut: false },
+            //{ date: "AUG 12, 2025", venue: "The Root Cellar", location: "Kingston, JM", soldOut: false },
+            //{ date: "SEP 05, 2025", venue: "Beachside Tavern", location: "San Diego, CA", soldOut: true },
+            //{ date: "OCT 19, 2025", venue: "The Folk Fest", location: "Asheville, NC", soldOut: false },
         ];
     }
 
@@ -21,17 +21,29 @@ class TourHandler {
     renderTourDates() {
         const showList = document.querySelector('.show-list');
         if (!showList) return;
-        
-        showList.innerHTML = this.tourDates.map(show => `
-            <li>
-                <span class="date">${show.date}</span>
-                <span class="venue">${show.venue}</span>
-                <span class="location">${show.location}</span>
-                <a href="#" class="ticket-btn ${show.soldOut ? 'sold-out' : ''}">
-                    ${show.soldOut ? 'Sold Out' : 'Get Tickets'}
-                </a>
-            </li>
-        `).join('');
+    
+        // Check if tour dates array is empty
+        if (this.tourDates.length === 0) {
+            showList.innerHTML = `
+                <li class="no-shows-message">
+                    <div class="no-shows-content">
+                        <h3>Bald kommen Updates für Festivals 2026!</h3>
+                        <p>Wir arbeiten an neuen Terminen und werden euch bald über kommende Auftritte informieren. Bleibt dran!</p>
+                    </div>
+                </li>
+            `;
+        } else {
+            showList.innerHTML = this.tourDates.map(show => `
+                <li>
+                    <span class="date">${show.date}</span>
+                    <span class="venue">${show.venue}</span>
+                    <span class="location">${show.location}</span>
+                    <a href="#" class="ticket-btn ${show.soldOut ? 'sold-out' : ''}">
+                        ${show.soldOut ? 'Sold Out' : 'Get Tickets'}
+                    </a>
+                </li>
+            `).join('');
+        }
     }
 
     // Method to add new tour date

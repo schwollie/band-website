@@ -89,7 +89,7 @@ class NewsletterHandler {
             } catch (error) {
                 // Display error message
                 formMessage.textContent = error.message;
-                formMessage.style.color = '#e74c3c'; // Red color for errors
+                formMessage.style.color = 'var(--error-red)'; // Red color for errors
             } finally {
                 // Reset UI state
                 submitButton.textContent = originalButtonText;
