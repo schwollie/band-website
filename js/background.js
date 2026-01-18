@@ -1,10 +1,16 @@
 /**
  * Background Effects Handler
- * Manages sun parallax, background colors, and future cloud effects
+ * Manages sun parallax, background colors, and cloud effects
  */
 
 class BackgroundHandler {
     constructor() {
+        // Cloud configuration constants
+        this.cloudSize = 0.6;              // Base size of clouds
+        this.cloudSizeSpread = 0.2;        // Random variation in size
+        this.cloudDensity = 0.003;         // Clouds per pixel of screen width
+        this.cloudSeed = 46;               // Seed for predictable randomness
+
         // Sun properties
         this.sunInitialScale = 2.5;
         this.sunMaxScale = 3.5;
@@ -23,12 +29,19 @@ class BackgroundHandler {
         this.grainEnabled = true;
         this.grainVideoSpeed = 0.24; // Playback speed for video grain (0.1-1.0)
 
+        // Cloud properties
+        this.clouds = [];
+        this.time = 0;
+
         this.init();
     }
 
     init() {
         // Get colors from CSS custom properties
         this.loadColorsFromCSS();
+        
+        // Initialize clouds with random scales
+        this.initClouds();
         
         // Apply static grain effect
         if (this.grainEnabled) {
@@ -40,6 +53,62 @@ class BackgroundHandler {
         
         // Trigger initial scroll handling on load
         this.handleScroll();
+    }
+
+    // Seeded random number generator (predictable results)
+    seededRandom(seed) {
+        const x = Math.sin(seed * 9999) * 10000;
+        return x - Math.floor(x);
+    }
+
+    initClouds() {
+        const container = document.querySelector('.clouds-container');
+        if (!container) return;
+        
+        container.innerHTML = '';
+        this.clouds = [];
+        
+        const totalClouds = Math.max(2, Math.floor(window.innerWidth * this.cloudDensity));
+        let seed = this.cloudSeed;
+        
+        for (let i = 0; i < totalClouds; i++) {
+            const img = document.createElement('img');
+            img.src = `assets/images/clouds/cloud${1 + Math.floor(this.seededRandom(seed++) * 3)}.png`;
+            img.className = 'cloud';
+            
+            // Distribute evenly: alternate left/right halves
+            const half = i % 2 === 0 ? 0 : 0.5;
+            const leftPos = half + this.seededRandom(seed++) * 0.5;
+            const topPos = 5 + this.seededRandom(seed++) * 25;
+            // Use transform for centering so left position is cloud center, not edge
+            img.style.cssText = `top:${topPos}%;left:${leftPos * 100}%;transform-origin:center center`;
+            container.appendChild(img);
+            console.log('Cloud', i, 'leftPos:', leftPos * 100 + '%');
+            
+            const size = this.cloudSize + (this.seededRandom(seed++) - 0.5) * 2 * this.cloudSizeSpread;
+            this.clouds.push({ 
+                el: img, 
+                s: size, 
+                v: 0.2 + this.seededRandom(seed++) * 0.3, 
+                a: 3 + this.seededRandom(seed++) * 4, 
+                p: this.seededRandom(seed++) * Math.PI * 2 
+            });
+        }
+        
+        if (!this.animationStarted) {
+            this.animationStarted = true;
+            const animate = () => { this.time += 16; this.updateClouds(); requestAnimationFrame(animate); };
+            animate();
+        }
+    }
+
+    updateClouds() {
+        const y = window.scrollY;
+        this.clouds.forEach(c => {
+            const x = Math.sin(this.time * 0.0008 + c.p) * c.a;
+            c.el.style.transform = `translate(${x}px, ${-y * c.v}px) scale(${c.s})`;
+            c.el.style.opacity = Math.max(0, 0.6 - y / 500);
+        });
     }
 
     /**

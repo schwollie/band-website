@@ -1,10 +1,13 @@
-const CACHE_NAME = 'LYMINA-band-cache-v0.1.004'; // Incremented for auto-scrolling gallery
+const CACHE_NAME = 'LYMINA-band-cache-v0.1.006'; // Incremented for cloud fixes
 const PREVENT_CACHE = false;
 const urlsToCache = [
     '/',
     '/index.html',
     '/css/styles.css',
     '/js/main.js',
+    'assets/images/clouds/cloud1.png',
+    'assets/images/clouds/cloud2.png',
+    'assets/images/clouds/cloud3.png',
     '/assets/images/sun_no_glow.png',
     '/assets/images/name.png',
     '/assets/images/favicon.png',
