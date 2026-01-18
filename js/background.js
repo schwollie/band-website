@@ -41,7 +41,7 @@ class BackgroundHandler {
         this.loadColorsFromCSS();
         
         // Initialize clouds with random scales
-        this.initClouds();
+        //this.initClouds();
         
         // Apply static grain effect
         if (this.grainEnabled) {

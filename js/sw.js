@@ -1,13 +1,15 @@
-const CACHE_NAME = 'LYMINA-band-cache-v0.1.006'; // Incremented for cloud fixes
+const CACHE_NAME = 'LYMINA-band-cache-v0.1.007'; // Fixed paths
 const PREVENT_CACHE = false;
 const urlsToCache = [
     '/',
     '/index.html',
     '/css/styles.css',
     '/js/main.js',
-    'assets/images/clouds/cloud1.png',
-    'assets/images/clouds/cloud2.png',
-    'assets/images/clouds/cloud3.png',
+    '/js/background.js',
+    '/js/tour.js',
+    '/assets/images/clouds/cloud1.png',
+    '/assets/images/clouds/cloud2.png',
+    '/assets/images/clouds/cloud3.png',
     '/assets/images/sun_no_glow.png',
     '/assets/images/name.png',
     '/assets/images/favicon.png',
@@ -24,11 +26,6 @@ const urlsToCache = [
     '/assets/images/gallery/galery7.jpg',
     '/assets/images/gallery/galery8.jpg',
     '/assets/images/gallery/galery9.jpg',
-    'https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@700&family=Space+Mono:wght@400;700&family=Lato:wght@300;400&display=swap',
-    'https://fonts.gstatic.com/s/bebasneuepro/v1/r05YGLlR-KxAf9GGO8upyDYtStiJ.woff2',
-    'https://fonts.gstatic.com/s/montserrat/v26/JTUSjIg1_i6t8kCHKm459Wlhyw.woff2',
-    'https://fonts.gstatic.com/s/spacemono/v13/i7dPIFZifjKcF5UAWdDRUEZ2RFq7AwU.woff2',
-    'https://fonts.gstatic.com/s/lato/v24/S6uyw4BMUTPHjx4wXg.woff2'
 ];
 
 // Install the service worker and cache assets
