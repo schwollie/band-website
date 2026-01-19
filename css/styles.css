@@ -154,11 +154,12 @@ body {
     max-width: 600px;
     height: auto;
     will-change: transform; /* Performance hint for browser */
+    opacity: 0; /* Hidden initially, JS will fade in */
 }
 
 /* --- Cloud Decorations --- */
-.clouds-container { position: absolute; inset: 0; pointer-events: none; z-index: 1; overflow: visible; }
-.cloud { position: absolute; opacity: 0.6; will-change: transform, opacity; }
+.clouds-container { position: absolute; inset: 0; pointer-events: none; z-index: 1; overflow: visible; opacity: 0; /* Hidden initially, JS will fade in */ }
+.cloud { position: absolute; opacity: 1; will-change: transform, opacity; }
 
 .band-logo {
     position: relative;
@@ -168,6 +169,7 @@ body {
     height: auto;
     filter: drop-shadow(0 4px 8px var(--black-10));
     will-change: opacity; /* Performance hint */
+    opacity: 0; /* Hidden initially, JS will fade in */
 }
 
 /* --- Band Header Section --- */
@@ -269,6 +271,41 @@ h2 {
 p {
     max-width: 700px;
     margin: 0 auto 1rem auto;
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+.band-quote {
+    position: relative;
+    max-width: 700px;
+    margin: 0 auto 1rem auto;
+    padding: 0 2.5rem;
+}
+
+.band-quote::before,
+.band-quote::after {
+    font-family: Georgia, serif;
+    font-size: 4rem;
+    color: var(--pop-black);
+    -webkit-text-stroke: 2px var(--pop-black);
+    position: absolute;
+    line-height: 1;
+}
+
+.band-quote::before {
+    content: '„';
+    top: -0.5rem;
+    left: 0;
+}
+
+.band-quote::after {
+    content: '"';
+    bottom: -1.5rem;
+    right: 0;
+}
+
+.band-quote p {
+    margin: 0;
     font-size: 1.1rem;
     line-height: 1.8;
 }

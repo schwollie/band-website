@@ -1,4 +1,4 @@
-const CACHE_NAME = 'LYMINA-band-cache-v0.1.007'; // Fixed paths
+const CACHE_NAME = 'LYMINA-band-cache-v0.1.011'; // Fixed fade-in issues
 const PREVENT_CACHE = false;
 const urlsToCache = [
     '/',

@@ -3,7 +3,9 @@
  * Manages the band logo parallax effects and animations
  */
 
-class LogoHandler {
+// DEPRECATED: This class is now integrated into BackgroundHandler in background.js
+// Keeping this file for reference but the class is renamed to avoid conflicts
+class LogoHandlerLegacy {
     constructor() {
         // Logo properties
         this.logoStartX = 0.005; // Percentage of viewport width
@@ -57,5 +59,5 @@ class LogoHandler {
     }
 }
 
-// Export for use in main.js
-window.LogoHandler = LogoHandler;
+// LogoHandler is now part of BackgroundHandler - this file is deprecated
+// window.LogoHandler = LogoHandler;

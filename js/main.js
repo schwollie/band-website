@@ -6,11 +6,10 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- Initialize All Handlers ---
     
-    // Background and visual effects
+    // Background and visual effects (includes sun, logo, clouds, grain)
     const backgroundHandler = new window.BackgroundHandler();
     // Make available globally for debugging
     window.backgroundHandler = backgroundHandler;
-    const logoHandler = new window.LogoHandler();
     const animationHandler = new window.AnimationHandler();
     
     // UI Components
@@ -19,9 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const galleryHandler = new window.GalleryHandler();
     const merchHandler = new window.MerchHandler();
 
-    // Initialize all handlers
-    backgroundHandler.init();
-    logoHandler.init();
+    // Initialize all handlers (BackgroundHandler auto-inits in constructor)
     animationHandler.init();
     socialBarHandler.init();
     tourHandler.init();
