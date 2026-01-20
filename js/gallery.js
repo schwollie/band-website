@@ -27,14 +27,37 @@ class GalleryHandler {
     }
 
     /**
-     * Build image paths array
+     * Build image paths array with extra images for bottom fill
+     * Uses sequential order with random offset to prevent adjacent duplicates
      */
     getImagePaths() {
         const paths = [];
         for (let i = 1; i <= this.imageCount; i++) {
             paths.push(`${this.imagePath}${i}.jpg`);
         }
-        return this.shuffle(paths);
+        
+        // Random starting point (0-8) for variety on each page load
+        const startOffset = Math.floor(Math.random() * this.imageCount);
+        
+        // First set: all 9 unique images in rotated order
+        // Sequential order ensures no adjacent column duplicates
+        const uniqueFirst = [];
+        for (let i = 0; i < this.imageCount; i++) {
+            uniqueFirst.push(paths[(startOffset + i) % this.imageCount]);
+        }
+        
+        // Extra images with different offsets to avoid vertical repeats
+        const extra1 = [];
+        const extra2 = [];
+        const offset1 = (startOffset + 3) % this.imageCount; // Offset by 3
+        const offset2 = (startOffset + 6) % this.imageCount; // Offset by 6
+        
+        for (let i = 0; i < this.imageCount; i++) {
+            extra1.push(paths[(offset1 + i) % this.imageCount]);
+            extra2.push(paths[(offset2 + i) % this.imageCount]);
+        }
+        
+        return [...uniqueFirst, ...extra1, ...extra2];
     }
 
     /**
@@ -52,12 +75,14 @@ class GalleryHandler {
                 <div class="gallery-featured">
                     <img src="${this.featuredImage}" alt="LYMINA featured photo" loading="eager">
                 </div>
-                <div class="gallery-masonry">
-                    ${images.map(src => `
-                        <div class="gallery-masonry-item">
-                            <img src="${src}" alt="LYMINA gallery photo" loading="lazy">
-                        </div>
-                    `).join('')}
+                <div class="gallery-masonry-wrapper">
+                    <div class="gallery-masonry">
+                        ${images.map(src => `
+                            <div class="gallery-masonry-item">
+                                <img src="${src}" alt="LYMINA gallery photo" loading="lazy">
+                            </div>
+                        `).join('')}
+                    </div>
                 </div>
             </div>
         `;
