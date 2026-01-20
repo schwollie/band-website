@@ -118,6 +118,56 @@ body {
     transform: scale(1.2);
 }
 
+/* --- Release Banner --- */
+.release-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: var(--accent-gold);
+    color: var(--pop-black);
+    padding: 0.75rem 1.5rem;
+    text-align: center;
+    z-index: 999;
+    font-family: var(--header-font);
+    font-size: 1.1rem;
+    letter-spacing: 0.05em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    box-shadow: 0 -2px 10px var(--black-15);
+    transition: opacity 0.2s ease;
+}
+
+.release-text {
+    font-weight: bold;
+}
+
+.release-link {
+    background: var(--pop-black);
+    color: var(--pop-white);
+    padding: 0.5rem 1.2rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.release-link:hover {
+    transform: scale(1.05);
+    background: var(--text-charcoal);
+}
+
+@media (max-width: 600px) {
+    .release-banner {
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 0.6rem 1rem;
+        font-size: 0.95rem;
+    }
+}
+
 .social-bar a:hover .social-icon {
     /* On hover, change to pop electric yellow */
     filter: brightness(0) saturate(100%) invert(85%) sepia(100%) saturate(2000%) hue-rotate(15deg) brightness(110%) contrast(100%);

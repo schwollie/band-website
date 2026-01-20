@@ -13,7 +13,6 @@ class MerchHandler {
 
     init() {
         // Placeholder for future merch functionality
-        console.log('Merch handler initialized - ready for future implementation');
     }
 
     // Method to add merch items in the future
@@ -24,8 +23,6 @@ class MerchHandler {
 
     // Placeholder method for rendering merch
     renderMerch() {
-        // Future implementation will render merch items
-        console.log('Merch rendering - to be implemented');
     }
 }
 

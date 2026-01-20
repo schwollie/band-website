@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const tourHandler = new window.TourHandler();
     const galleryHandler = new window.GalleryHandler();
     const merchHandler = new window.MerchHandler();
+    const releaseBannerHandler = new window.ReleaseBannerHandler();
 
     // Initialize all handlers (BackgroundHandler auto-inits in constructor)
     animationHandler.init();
@@ -24,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     tourHandler.init();
     galleryHandler.init();
     merchHandler.init();
+    releaseBannerHandler.init();
 
     console.log('LYMINA website initialized successfully!');
 });
