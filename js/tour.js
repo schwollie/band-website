@@ -10,8 +10,8 @@ class TourHandler {
             { date: "MAY 23, 2025", venue: "Poschinger Villa", location: "Landshut, DE", soldOut: false, otherArtists: ["Dark you"] },
             { date: "JAN 17, 2024", venue: "Kinokafe", location: "Taufkirchen (Vils)", soldOut: false, otherArtists: ["The Drunken Dentists"]},
             { date: "JUL 26, 2024", venue: "Hoffest", location: "Kaidach",soldOut: false, otherArtists: ["Cloudsurfers"]},
-            { date: "JUN 20, 2024", venue: "Kunstkloss", location: "Giesinger Bahnhof",soldOut: false, otherArtists: ["Heaxxa", "Precious & Fraktionsloser"]},
-            { date: "FEB 2, 2024", venue: "Waschbar", location: "Regensburg",soldOut: false, otherArtists: ["G2theA"]},
+            { date: "FEB 25, 2025", venue: "Kunstkloss", location: "Giesinger Bahnhof",soldOut: false, otherArtists: ["Heaxxa", "Precious & Fraktionsloser"]},
+            { date: "NOV 14, 2023", venue: "Waschbar", location: "Regensburg",soldOut: false, otherArtists: ["G2theA"]},
         ];
         
         this.activeTab = 'upcoming';

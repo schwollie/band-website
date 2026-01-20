@@ -23,15 +23,33 @@ class ReleaseBannerHandler {
     }
 
     handleScroll() {
-        const scrollBottom = window.scrollY + window.innerHeight;
-        const docHeight = document.documentElement.scrollHeight;
-        const distanceFromBottom = docHeight - scrollBottom;
+        const footer = document.querySelector('footer');
+        if (!footer) return;
         
-        // Fade out when within 350px of bottom
-        if (distanceFromBottom < 350) {
-            this.banner.style.opacity = distanceFromBottom / 350;
+        const footerTop = footer.getBoundingClientRect().top;
+        const bannerHeight = this.banner.offsetHeight;
+        const viewportHeight = window.innerHeight;
+        
+        // Distance from banner (at bottom of viewport) to footer
+        const distanceToFooter = footerTop - viewportHeight;
+        const fadeDistance = 150; // Start fading 150px before footer
+        
+        if (distanceToFooter <= 0) {
+            // Banner has reached or passed the footer - hide completely
+            this.banner.style.opacity = 0;
+            this.banner.style.pointerEvents = 'none';
+            this.banner.style.visibility = 'hidden';
+        } else if (distanceToFooter < fadeDistance) {
+            // Fade out as approaching footer
+            const opacity = distanceToFooter / fadeDistance;
+            this.banner.style.opacity = opacity;
+            this.banner.style.pointerEvents = 'none';
+            this.banner.style.visibility = 'visible';
         } else {
+            // Above footer - fully visible and clickable
             this.banner.style.opacity = 1;
+            this.banner.style.pointerEvents = 'auto';
+            this.banner.style.visibility = 'visible';
         }
     }
 

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'LYMINA-band-cache-v0.1.012'; // Masonry gallery update
+const CACHE_NAME = 'LYMINA-band-cache-v0.1.013'; // Masonry gallery update
 const PREVENT_CACHE = false;
 const urlsToCache = [
     '/',
