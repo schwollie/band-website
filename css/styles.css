@@ -11,10 +11,7 @@
     /* Background transition settings */
     --bg-color-change-threshold: 300px;  /* Pixels scrolled before color starts changing */
     
-    /* Gallery settings */
-    --gallery-height: 400px;         /* Height of gallery images */
-    --gallery-height-mobile: 250px;  /* Height of gallery images on mobile */
-    --gallery-scroll-speed: 1000s;     /* Time for one full scroll cycle - smooth and continuous */
+    /* Gallery settings - see css/gallery.css for gallery-specific styles */
     --gallery-bg-grey: #8f8f8f;      /* Light grey background for gallery section */
     
     /* Section background colors */
@@ -464,43 +461,11 @@ section.is-visible .show-list li {
     margin: 0 auto;
 }
 
-/* --- Gallery Slideshow --- */
-.gallery-scroll-container {
-    width: 100vw;
-    height: var(--gallery-height);
-    overflow: hidden !important;
-    position: relative;
-    margin-left: calc(-50vw + 50%);
-}
-
-.gallery-track {
-    display: flex;
-    height: 100%;
-    will-change: transform;
-    /* Animation now handled by JavaScript for dynamic loading */
-}
-
-.gallery-item {
-    flex-shrink: 0;
-    height: 100%;
-    margin-right: 1rem; /* Small gap between images */
-}
-
-.gallery-item img {
-    height: 100%;
-    width: auto;
-    display: block;
-    border: 8px solid var(--pop-black);
-    box-shadow: 0 4px 8px var(--black-15);
-}
-
-@keyframes scroll-gallery {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(-16.666%); /* Move 1/6 of the total width (since we have 6 copies) */
-    }
+/* --- Gallery Wrapper --- */
+/* Gallery-specific styles are in css/gallery.css */
+.gallery-wrapper {
+    width: 100%;
+    overflow: visible;
 }
 
 /* --- Newsletter Section --- */
@@ -832,11 +797,6 @@ footer a:hover {
     #newsletter-form { flex-direction: column; }
     #newsletter-form input[type="email"] { width: 100%; }
     
-    /* Gallery adjustments for mobile */
-    .gallery-scroll-container {
-        height: var(--gallery-height-mobile);
-    }
-
     .privacy-content {
         padding: 1.5rem;
     }

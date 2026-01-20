@@ -1,11 +1,13 @@
-const CACHE_NAME = 'LYMINA-band-cache-v0.1.011'; // Fixed fade-in issues
+const CACHE_NAME = 'LYMINA-band-cache-v0.1.012'; // Masonry gallery update
 const PREVENT_CACHE = false;
 const urlsToCache = [
     '/',
     '/index.html',
     '/css/styles.css',
+    '/css/gallery.css',
     '/js/main.js',
     '/js/background.js',
+    '/js/gallery.js',
     '/js/tour.js',
     '/assets/images/clouds/cloud1.png',
     '/assets/images/clouds/cloud2.png',
@@ -17,6 +19,7 @@ const urlsToCache = [
     '/assets/icons/youtube.png',
     '/assets/icons/tiktok.png',
     '/assets/videos/film-grain.mp4',
+    '/assets/images/gallery/FeaturedImage.jpg',
     '/assets/images/gallery/galery1.jpg',
     '/assets/images/gallery/galery2.jpg',
     '/assets/images/gallery/galery3.jpg',
