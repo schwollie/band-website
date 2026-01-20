@@ -1,4 +1,4 @@
-const CACHE_NAME = 'LYMINA-band-cache-v0.1.014'; // WebP format update
+const CACHE_NAME = 'LYMINA-band-cache-v0.1.015'; // WebP format update
 const PREVENT_CACHE = false;
 const urlsToCache = [
     '/',
