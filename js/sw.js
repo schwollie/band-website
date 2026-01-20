@@ -1,4 +1,4 @@
-const CACHE_NAME = 'LYMINA-band-cache-v0.1.013'; // Masonry gallery update
+const CACHE_NAME = 'LYMINA-band-cache-v0.1.014'; // WebP format update
 const PREVENT_CACHE = false;
 const urlsToCache = [
     '/',
@@ -12,22 +12,34 @@ const urlsToCache = [
     '/assets/images/clouds/cloud1.png',
     '/assets/images/clouds/cloud2.png',
     '/assets/images/clouds/cloud3.png',
+    '/assets/images/sun_no_glow.webp',
     '/assets/images/sun_no_glow.png',
+    '/assets/images/name.webp',
     '/assets/images/name.png',
     '/assets/images/favicon.png',
     '/assets/icons/instagram.png',
     '/assets/icons/youtube.png',
     '/assets/icons/tiktok.png',
     '/assets/videos/film-grain.mp4',
+    '/assets/images/gallery/FeaturedImage.webp',
     '/assets/images/gallery/FeaturedImage.jpg',
+    '/assets/images/gallery/galery1.webp',
     '/assets/images/gallery/galery1.jpg',
+    '/assets/images/gallery/galery2.webp',
     '/assets/images/gallery/galery2.jpg',
+    '/assets/images/gallery/galery3.webp',
     '/assets/images/gallery/galery3.jpg',
+    '/assets/images/gallery/galery4.webp',
     '/assets/images/gallery/galery4.jpg',
+    '/assets/images/gallery/galery5.webp',
     '/assets/images/gallery/galery5.jpg',
+    '/assets/images/gallery/galery6.webp',
     '/assets/images/gallery/galery6.jpg',
+    '/assets/images/gallery/galery7.webp',
     '/assets/images/gallery/galery7.jpg',
+    '/assets/images/gallery/galery8.webp',
     '/assets/images/gallery/galery8.jpg',
+    '/assets/images/gallery/galery9.webp',
     '/assets/images/gallery/galery9.jpg',
 ];
 

@@ -6,8 +6,11 @@
 class GalleryHandler {
     constructor() {
         this.imageCount = 9;
-        this.featuredImage = 'assets/images/gallery/FeaturedImage.jpg';
+        this.featuredImage = 'assets/images/gallery/FeaturedImage.webp';
+        this.featuredImageFallback = 'assets/images/gallery/FeaturedImage.jpg';
         this.imagePath = 'assets/images/gallery/galery';
+        this.imageExt = '.webp';
+        this.imageExtFallback = '.jpg';
     }
 
     init() {
@@ -33,7 +36,10 @@ class GalleryHandler {
     getImagePaths() {
         const paths = [];
         for (let i = 1; i <= this.imageCount; i++) {
-            paths.push(`${this.imagePath}${i}.jpg`);
+            paths.push({
+                webp: `${this.imagePath}${i}${this.imageExt}`,
+                fallback: `${this.imagePath}${i}${this.imageExtFallback}`
+            });
         }
         
         // Random starting point (0-8) for variety on each page load
@@ -69,17 +75,23 @@ class GalleryHandler {
 
         const images = this.getImagePaths();
 
-        // Build HTML structure
+        // Build HTML structure with picture elements for webp with fallback
         container.innerHTML = `
             <div class="gallery-container">
                 <div class="gallery-featured">
-                    <img src="${this.featuredImage}" alt="LYMINA featured photo" loading="eager">
+                    <picture>
+                        <source srcset="${this.featuredImage}" type="image/webp">
+                        <img src="${this.featuredImageFallback}" alt="LYMINA featured photo" loading="eager">
+                    </picture>
                 </div>
                 <div class="gallery-masonry-wrapper">
                     <div class="gallery-masonry">
-                        ${images.map(src => `
+                        ${images.map(img => `
                             <div class="gallery-masonry-item">
-                                <img src="${src}" alt="LYMINA gallery photo" loading="lazy">
+                                <picture>
+                                    <source srcset="${img.webp}" type="image/webp">
+                                    <img src="${img.fallback}" alt="LYMINA gallery photo" loading="lazy">
+                                </picture>
                             </div>
                         `).join('')}
                     </div>
