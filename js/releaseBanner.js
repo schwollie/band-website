@@ -8,7 +8,7 @@ class ReleaseBannerHandler {
         // === CONFIGURE HERE ===
         this.enabled = true;
         this.releaseName = "Holidays in Space";
-        this.releaseDate = new Date("2026-01-30T23:59:59");
+        this.releaseDate = new Date("2026-01-29T23:59:59");
         this.presaveLink = "https://distrokid.com/hyperfollow/lymina/holidays-in-space";
         this.spotifyLink = "https://open.spotify.com/track/your-track-id";
         // ======================
